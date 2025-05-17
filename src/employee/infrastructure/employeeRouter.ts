@@ -1,14 +1,9 @@
 import { Router } from 'express'
-import { ProductController } from './employeeController'
+import { EmployeeController } from './employeeController'
 
 const router = Router()
-const controller = new ProductController()
+const controller = new EmployeeController()
 
-router.get('/:id', controller.getProduct)
-router.post('/', controller.addProduct)
-router.put('/:id', controller.editProduct)
-router.delete('/:id', controller.deleteProduct)
-
-router.get('/', controller.getAllProducts)
+router.post('/', controller.createEmployee)
 
 export default router

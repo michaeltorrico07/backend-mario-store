@@ -1,7 +1,7 @@
 import { Request, Response } from 'express'
 
 export class ProductController {
-  addProduct = async (req: Request, res: Response): Promise<void> => {
+  createProduct = async (req: Request, res: Response): Promise<void> => {
 
   }
 
@@ -9,11 +9,7 @@ export class ProductController {
 
   }
 
-  editProduct = async (req: Request, res: Response): Promise<void> => {
-
-  }
-
-  deleteProduct = async (req: Request, res: Response): Promise<void> => {
+  updateProduct = async (req: Request, res: Response): Promise<void> => {
 
   }
 
