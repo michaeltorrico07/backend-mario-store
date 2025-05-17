@@ -1,0 +1,46 @@
+{
+  "name": "backend-mario-store",
+  "version": "1.0.0",
+  "description": "wwww",
+  "main": "index.js",
+  "scripts": {
+    "build": "tsc",
+    "dev": "ts-node-dev src/server.ts",
+    "start": "node build/server.ts",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/michaeltorrico07/backend-mario-store.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/michaeltorrico07/backend-mario-store/issues"
+  },
+  "homepage": "https://github.com/michaeltorrico07/backend-mario-store#readme",
+  "eslintConfig": {
+    "parserOptions": {
+      "project": "./tsconfig.json"
+    },
+    "extends": [
+      "./node_modules/ts-standard/eslintrc.json"
+    ]
+  },
+  "devDependencies": {
+    "@types/cors": "2.8.18",
+    "@types/express": "5.0.1",
+    "@types/node": "22.15.18",
+    "dotenv": "16.5.0",
+    "ts-node-dev": "2.0.0",
+    "ts-standard": "12.0.2",
+    "typescript": "5.8.3"
+  },
+  "dependencies": {
+    "cors": "2.8.5",
+    "express": "5.1.0",
+    "firebase-admin": "13.4.0",
+    "zod": "3.24.4"
+  }
+}
