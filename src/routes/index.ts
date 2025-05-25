@@ -6,8 +6,8 @@ import productRouter from '../product/infrastructure/productRouter'
 
 const router = Router()
 
-router.use('/employees', employeeRouter)
-router.use('/orders', orderRouter)
-router.use('/products', productRouter)
+router.use('/employee', employeeRouter)
+router.use('/order', orderRouter)
+router.use('/product', productRouter)
 
 export default router
