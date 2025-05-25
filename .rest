@@ -1,5 +1,6 @@
 POST http://localhost:3000/product HTTP/1.1
 content-type: application/json
+
 {
   "name": "panchubi",
   "description": "un panchubi con mayonesa",
