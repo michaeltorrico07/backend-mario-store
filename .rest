@@ -1,9 +1,23 @@
 POST http://localhost:3000/product HTTP/1.1
 content-type: application/json
+
 {
   "name": "panchubi",
   "description": "un panchubi con mayonesa",
-  "tags": ["pancho", "panchubi", "le pongo queso y ahora es veneco"],
+  "tags": ["pancho", "panchubi", "le pongo queso y ahora es veneco", "wasa"],
   "image": "https://www.ab173.com/upload/default/2024/0802/5dbb5e90e50b1b741d482a129f2d3a12.png",
   "price": 2499
 }
+
+###
+POST http://localhost:3000/product HTTP/1.1
+content-type: application/json
+
+{
+  "name": "panchubi",
+  "description": "un panchubi con mayonesa",
+  "tags": ["pancho", "panchubi", "le pongo queso y ahora es veneco"]
+}
+
+###
+GET http://localhost:3000/product?tags=wasa&tags=panchubi HTTP/1.1

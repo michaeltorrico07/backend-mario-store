@@ -7,8 +7,8 @@ export const createProductUseCase = async (data: NewProduct): Promise<ProductUse
   try {
     const newProduct = await ProductRepository.createProduct(data)
 
-    return { success: true, product: newProduct, error: null }
+    return { success: true, data: newProduct, error: null }
   } catch (err) {
-    return { success: false, product: null, error: 'Unknown error occurred' }
+    return { success: false, data: null, error: 'Unknown error occurred' }
   }
 }

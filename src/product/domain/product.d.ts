@@ -13,7 +13,7 @@ export type UpdateProduct = Partial<Omit<Product, '_uuid'>>
 
 export interface ProductUseCase {
   success: boolean
-  product: Product | null | Product[]
+  data: Product | null | Product[]
   error: string | null
 }
 
