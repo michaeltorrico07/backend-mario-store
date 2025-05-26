@@ -27,7 +27,16 @@ export class FireBaseProductRepository implements ProductRepository {
   }
 
   async getAllProducts (tags?: string[]): Promise<Product[]> {
-    const product: Product[] = []
-    return product
+    let query: FirebaseFirestore.Query = db.collection('products')
+
+    if (tags !== undefined && tags.length > 0) {
+      query = query.where('tags', 'array-contains-any', tags)
+    }
+
+    const snapshot = await query.get()
+
+    const allProducts: Product[] = snapshot.docs.map(doc => doc.data() as Product)
+
+    return allProducts
   }
 }
