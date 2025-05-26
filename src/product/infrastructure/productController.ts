@@ -1,7 +1,6 @@
 import { Request, Response } from 'express'
-import { validNewProduct } from '../domain/productScheme'
-import { createProductUseCase } from '../application/inbound/index'
-import { getAllProductsUseCase } from '../application/inbound/getAllProductsUseCase'
+import { validNewProduct, validPartialProduct } from '../domain/productScheme'
+import { createProductUseCase, getAllProductsUseCase, getProductByIdUseCase, updateProductUseCase } from '../application/inbound/index'
 
 export class ProductController {
   createProduct = async (req: Request, res: Response): Promise<void> => {
@@ -9,7 +8,9 @@ export class ProductController {
     try {
       const result = validNewProduct(data)
       if (!result.success) {
-        res.status(400).send({ error: 'Bad request', errors_messages: result.error.errors })
+        res
+          .status(400)
+          .json({ error: 'Bad request', errors_messages: result.error.errors })
         return
       }
       const response = await createProductUseCase(result.data)
@@ -17,7 +18,6 @@ export class ProductController {
         res
           .status(500)
           .json({ error: response.error })
-        return
       }
       res
         .status(200)
@@ -30,12 +30,49 @@ export class ProductController {
     }
   }
 
-  getProduct = async (req: Request, res: Response): Promise<void> => {
-
+  getProductById = async (req: Request, res: Response): Promise<void> => {
+    const { id } = req.params
+    try {
+      const response = await getProductByIdUseCase(id)
+      if (!response.success) {
+        res
+          .status(404)
+          .json({ succes: response.success, data: response.data, error: response.error })
+      }
+      res
+        .status(200)
+        .json({ succes: response.success, data: response.data, error: response.error })
+    } catch (err) {
+      console.log(err)
+      res
+        .status(500)
+        .json({ error: 'Internal Server Error' })
+    }
   }
 
   updateProduct = async (req: Request, res: Response): Promise<void> => {
+    const { id } = req.params
+    const { data } = req.body
 
+    try {
+      const result = validPartialProduct(data)
+
+      if (!result.success) {
+        res
+          .status(400)
+          .json({ error: 'Bad request', errors_messages: result.error.errors })
+        return
+      }
+      const response = await updateProductUseCase(result.data, id)
+      res
+        .status(200)
+        .json({ succes: response.success, data: response.data, error: response.error })
+    } catch (err) {
+      console.log(err)
+      res
+        .status(500)
+        .json({ error: 'Internal Server Error' })
+    }
   }
 
   getAllProducts = async (req: Request, res: Response): Promise<void> => {

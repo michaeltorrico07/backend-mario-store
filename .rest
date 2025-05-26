@@ -21,3 +21,18 @@ content-type: application/json
 
 ###
 GET http://localhost:3000/product?tags=wasa&tags=panchubi HTTP/1.1
+
+###
+
+GET http://localhost:3000/product/95a551c2-c68e-4043-8b80-fe2ad53d6593 HTTP/1.1
+
+###
+
+PUT http://localhost:3000/product/95a551c2-c68e-4043-8b80-fe2ad53d6593 HTTP/1.1
+content-type: application/json
+
+{
+  "data": {
+    "name": "wasa"
+  }
+}
