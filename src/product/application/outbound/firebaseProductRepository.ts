@@ -19,11 +19,33 @@ export class FireBaseProductRepository implements ProductRepository {
   }
 
   async getProductById (id: string): Promise<Product | null> {
-    return null
+    const snapshot = await db
+      .collection('products')
+      .where('_uuid', '==', id)
+      .limit(1)
+      .get()
+    if (snapshot.empty) {
+      return null
+    }
+    const product = snapshot.docs[0].data() as unknown as Product
+    return product
   }
 
-  async updateProduct (product: UpdateProduct, id: string): Promise<Product | null> {
-    return null
+  async updateProduct (setData: UpdateProduct, id: string): Promise<Product | null> {
+    const snapshot = await db
+      .collection('products')
+      .where('_uuid', '==', id)
+      .limit(1)
+      .get()
+    if (snapshot.empty) return null
+
+    await snapshot.docs[0].ref.update(setData)
+
+    const updatedProduct: Product = {
+      ...snapshot.docs[0].data() as unknown as Product,
+      ...setData
+    }
+    return updatedProduct
   }
 
   async getAllProducts (tags?: string[]): Promise<Product[]> {

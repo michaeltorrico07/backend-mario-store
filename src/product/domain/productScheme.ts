@@ -47,11 +47,11 @@ const productSchema = z.object({
     .int('price must be integer')
 })
 
-const partialProductSchema = productSchema.partial()
-
 const createProductSchema = productSchema.omit({
   _uuid: true
 })
+
+const partialProductSchema = productSchema.omit({ _uuid: true }).partial()
 
 export function validProduct (input: unknown): SafeParseReturnType<unknown, z.infer<typeof productSchema>> {
   return productSchema.safeParse(input)
