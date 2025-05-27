@@ -28,7 +28,7 @@ const productSchema = z.object({
     .array(
       z.string()
     )
-    .min(1, 'at least one genre is required'),
+    .min(1, 'at least one tag is required'),
 
   image: z
     .string({

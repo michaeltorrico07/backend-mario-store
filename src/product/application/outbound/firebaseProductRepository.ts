@@ -1,20 +1,19 @@
 import { db } from '../../../infrastructure/db/firebase'
 import { Product, ProductRepository, UpdateProduct, NewProduct } from '../../domain/product'
-import { v4 as uuidv4 } from 'uuid'
 
 export class FireBaseProductRepository implements ProductRepository {
   async createProduct (newProduct: NewProduct): Promise<Product> {
-    const generatedId = uuidv4()
+    const idProduct = (await db.collection('products').add(newProduct)).id
+
     const productProcessed = {
-      _uuid: generatedId,
+      _uuid: idProduct,
       name: newProduct.name,
       tags: newProduct.tags,
       description: newProduct.description,
       image: newProduct.image,
       price: newProduct.price
     }
-    const productRef = db.collection('products').doc()
-    await productRef.set(productProcessed)
+
     return productProcessed
   }
 

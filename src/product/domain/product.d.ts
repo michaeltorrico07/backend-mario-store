@@ -18,7 +18,7 @@ export interface ProductUseCase {
 }
 
 export interface ProductRepository {
-  createProduct: (product: Product) => Promise<Product>
+  createProduct: (product: NewProduct) => Promise<Product>
   getProductById: (id: string) => Promise<Product | null>
   updateProduct: (setData: UpdateProduct, id: string) => Promise <Product | null>
   getAllProducts: (tags?: string[]) => Promise<Product[]>

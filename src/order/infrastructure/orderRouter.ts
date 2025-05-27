@@ -1,9 +1,7 @@
 import { Router } from 'express'
-import { OrderController } from './orderController'
 
 const router = Router()
-const controller = new OrderController()
 
-router.post('/', controller.createOrder)
+router.post('/')
 
 export default router
