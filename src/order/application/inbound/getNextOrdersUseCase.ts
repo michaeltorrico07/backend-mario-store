@@ -3,11 +3,11 @@ import { FirebaseOrderRespository } from '../outbound/firebaseOrderRepository'
 
 const OrderRepository = new FirebaseOrderRespository()
 
-export const cancelOrderUseCase = async (data: string): Promise<OrderUseCase> => {
+export const getNextOrdersUseCase = async (): Promise<OrderUseCase> => {
   try {
-    const cancel = await OrderRepository.cancelOrder(data)
+    const orders = await OrderRepository.getNextOrders()
 
-    return { success: true, data: cancel, error: null }
+    return { success: true, data: orders, error: null }
   } catch (err) {
     return { success: false, data: null, error: 'Unknown error occurred' }
   }

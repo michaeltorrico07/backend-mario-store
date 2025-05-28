@@ -1,6 +1,6 @@
 import { Request, Response } from 'express'
 import { validNewProduct, validPartialProduct } from '../domain/productScheme'
-import { createProductUseCase, getAllProductsUseCase, getProductByIdUseCase, updateProductUseCase } from '../application/inbound/index'
+import { createProductUseCase, getAllProductsUseCase, getProductByIdUseCase, updateProductUseCase } from '../application/inbound'
 
 export class ProductController {
   createProduct = async (req: Request, res: Response): Promise<void> => {
