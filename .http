@@ -21,3 +21,29 @@ PUT http://localhost:3000/order/oQGs4bOFk97kpN4TKpC
 
 ###
 DELETE http://localhost:3000/order/oQGs4bOFk97kpN4TKpCx
+
+###
+POST http://localhost:3000/user
+content-type: application/json
+
+{
+  "id": "saaaas",
+  "name": "Saas user",
+  "lastName": "Saas last name",
+  "email": "bynfigei@gmail.com",
+  "dni": 12342567
+}
+
+###
+GET http://localhost:3000/user/6i2y4Pp2JjacqlYq5sm
+
+###
+PUT http://localhost:3000/user/saaaas
+content-type: application/json
+
+{
+  "name": "Saas user updated",
+  "lastName": "Saas last name updated",
+  "email": "bynfigei_updated@gmail.com",
+  "dni": 12342567
+}
