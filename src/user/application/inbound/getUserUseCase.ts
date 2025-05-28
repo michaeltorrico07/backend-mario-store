@@ -1,0 +1,14 @@
+import { UserUseCase } from '../../domain/user'
+import { FirebaseUserRepository } from '../outbound/firebaseUserRepository'
+
+const UserRepository = new FirebaseUserRepository()
+
+export const getUserUseCase = async (id: string): Promise<UserUseCase> => {
+  try {
+    const user = await UserRepository.getUser(id)
+
+    return { success: true, data: user, error: null }
+  } catch (err) {
+    return { success: false, data: null, error: 'Unknown error occurred' }
+  }
+}

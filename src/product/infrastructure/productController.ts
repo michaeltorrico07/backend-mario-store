@@ -21,7 +21,7 @@ export class ProductController {
       }
       res
         .status(200)
-        .json({ succes: response.success, data: response.data, error: response.error })
+        .json({ success: response.success, data: response.data, error: response.error })
     } catch (err) {
       console.log(err)
       res
@@ -37,11 +37,11 @@ export class ProductController {
       if (!response.success) {
         res
           .status(404)
-          .json({ succes: response.success, data: response.data, error: response.error })
+          .json({ success: response.success, data: response.data, error: response.error })
       }
       res
         .status(200)
-        .json({ succes: response.success, data: response.data, error: response.error })
+        .json({ success: response.success, data: response.data, error: response.error })
     } catch (err) {
       console.log(err)
       res
@@ -66,7 +66,7 @@ export class ProductController {
       const response = await updateProductUseCase(result.data, id)
       res
         .status(200)
-        .json({ succes: response.success, data: response.data, error: response.error })
+        .json({ success: response.success, data: response.data, error: response.error })
     } catch (err) {
       console.log(err)
       res
@@ -84,7 +84,7 @@ export class ProductController {
       const response = await getAllProductsUseCase(tags as string[])
       res
         .status(200)
-        .json({ succes: response.success, data: response.data, error: response.error })
+        .json({ success: response.success, data: response.data, error: response.error })
     } catch (err) {
       console.log(err)
       res
