@@ -6,8 +6,7 @@ const productSchema = z.object({
       invalid_type_error: '_uuid must be string',
       required_error: '_uuid is required'
     })
-    .nonempty('_uuid cannot be empty')
-    .trim(),
+    .nonempty('_uuid cannot be empty'),
 
   name: z
     .string({

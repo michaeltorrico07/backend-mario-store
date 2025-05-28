@@ -1,0 +1,23 @@
+POST http://localhost:3000/order
+content-type: application/json
+
+{
+  "idUser": "saas",
+  "listProducts": [
+    {
+      "idProduct": "sees",
+      "amount": 3,
+      "price": 100
+    }
+  ],
+  "deliverDate": "mañana anashei"
+}
+
+###
+GET http://localhost:3000/order/saas
+
+###
+PUT http://localhost:3000/order/oQGs4bOFk97kpN4TKpC
+
+###
+DELETE http://localhost:3000/order/oQGs4bOFk97kpN4TKpCx
