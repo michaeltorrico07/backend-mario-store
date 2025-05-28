@@ -7,6 +7,8 @@ const controller = new OrderController()
 router.post('/', controller.createOrder)
 router.delete('/:id', controller.cancelOrder)
 router.put('/:id', controller.deliverOrder)
-router.get('/:id', controller.getOrdersByUser)
+router.get('/', controller.getNextOrders)
+router.get('/:id', controller.getOrderById)
+router.get('/user/:id', controller.getOrdersByUser)
 
 export default router

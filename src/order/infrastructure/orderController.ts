@@ -1,6 +1,6 @@
 import { Request, Response } from 'express'
 import { validCreateOrder } from '../domain/orderScheme'
-import { createOrderUseCase, cancelOrderUseCase, deliverOrderUseCase, getOrdersByUserOrderUseCase } from '../application/inbound'
+import { createOrderUseCase, cancelOrderUseCase, deliverOrderUseCase, getOrdersByUserUseCase, getOrderByIdUseCase, getNextOrdersUseCase } from '../application/inbound'
 
 export class OrderController {
   createOrder = async (req: Request, res: Response): Promise<void> => {
@@ -76,7 +76,48 @@ export class OrderController {
   getOrdersByUser = async (req: Request, res: Response): Promise<void> => {
     const { id } = req.params
     try {
-      const response = await getOrdersByUserOrderUseCase(id)
+      const response = await getOrdersByUserUseCase(id)
+
+      if (!response.success) {
+        res
+          .status(500)
+          .json({ error: response.error })
+      }
+      res
+        .status(200)
+        .json({ succes: response.success, data: response.data, error: response.error })
+    } catch (err) {
+      console.log(err)
+      res
+        .status(500)
+        .json({ error: 'Internal Server Error' })
+    }
+  }
+
+  getOrderById = async (req: Request, res: Response): Promise<void> => {
+    const { id } = req.params
+    try {
+      const response = await getOrderByIdUseCase(id)
+
+      if (!response.success) {
+        res
+          .status(500)
+          .json({ error: response.error })
+      }
+      res
+        .status(200)
+        .json({ succes: response.success, data: response.data, error: response.error })
+    } catch (err) {
+      console.log(err)
+      res
+        .status(500)
+        .json({ error: 'Internal Server Error' })
+    }
+  }
+
+  getNextOrders = async (req: Request, res: Response): Promise<void> => {
+    try {
+      const response = await getNextOrdersUseCase()
 
       if (!response.success) {
         res

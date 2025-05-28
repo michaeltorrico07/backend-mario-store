@@ -14,7 +14,7 @@ content-type: application/json
 }
 
 ###
-GET http://localhost:3000/order/saas
+GET http://localhost:3000/order
 
 ###
 PUT http://localhost:3000/order/oQGs4bOFk97kpN4TKpC

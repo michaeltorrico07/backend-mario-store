@@ -3,9 +3,9 @@ import { FirebaseOrderRespository } from '../outbound/firebaseOrderRepository'
 
 const OrderRepository = new FirebaseOrderRespository()
 
-export const getOrdersByUserUseCase = async (data: string): Promise<OrderUseCase> => {
+export const getNextOrdersUseCase = async (): Promise<OrderUseCase> => {
   try {
-    const orders = await OrderRepository.getOrdersByUser(data)
+    const orders = await OrderRepository.getNextOrders()
 
     return { success: true, data: orders, error: null }
   } catch (err) {

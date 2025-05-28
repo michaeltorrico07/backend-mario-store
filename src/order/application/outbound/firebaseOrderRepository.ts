@@ -24,4 +24,16 @@ export class FirebaseOrderRespository implements OrderRepository {
     const orders: Order[] = snapshot.docs.map(doc => doc.data() as Order)
     return orders
   }
+
+  async getOrderById (idOrder: string): Promise<Order> {
+    const snapshot = await db.collection('orders').doc(idOrder).get()
+    const order = snapshot.data() as Order
+    return order
+  }
+
+  async getNextOrders (): Promise<Order[]> {
+    const snapshot = await db.collection('orders').get()
+    const orders: Order[] = snapshot.docs.map(doc => doc.data() as Order)
+    return orders
+  }
 }

@@ -15,7 +15,7 @@ export type CreateOrder = Omit<Order, 'delivered'>
 
 export interface OrderUseCase {
   success: boolean
-  data: null | Order[] | boolean
+  data: Order | Order[] | boolean | null
   error: string | null
 }
 
@@ -24,4 +24,6 @@ export interface OrderRepository {
   deliverOrder: (idOrder: string) => Promise<boolean>
   cancelOrder: (idOrder: string) => Promise<boolean>
   getOrdersByUser: (idUser: string) => Promise<Order[]>
+  getOrderById: (idOrder: string) => Promise<Order>
+  getNextOrders: () => Promise<Order[]>
 }
