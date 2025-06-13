@@ -3,7 +3,7 @@ export interface User {
   name: string
   lastName: string
   email: string
-  dni: number
+  dni: string
 }
 
 export type UpdateUser = Partial<Omit<User, 'id'>>
