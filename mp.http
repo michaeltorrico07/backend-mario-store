@@ -1,0 +1,23 @@
+###
+GET http://localhost:3000/payment 
+content-type: application/json
+
+{
+  "items": [
+    {
+      "title": "chinchenhanchin",
+      "quantity": 3,
+      "unit_price": 150.00
+    },
+    {
+      "title": "wasa",
+      "quantity": 10,
+      "unit_price": 162.00
+    }
+  ],
+  "payer": {
+    "name": "Balatro",
+    "surname": "Balatrez",
+    "email": "balatrodelosbalatrez@gmail.com"
+  }
+}
