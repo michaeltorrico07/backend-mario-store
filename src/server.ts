@@ -1,9 +1,15 @@
 import express from 'express'
-import { port } from './infrastructure/config/envConfig'
+import { frontendUrl, port } from './infrastructure/config/envConfig'
 import router from './routes/index'
+import cors from 'cors'
 
 const app = express()
 
+app.use(cors({
+  origin: frontendUrl,
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  allowedHeaders: ['Content-Type', 'Authorization']
+}))
 app.use(express.json())
 app.use('/', router)
 
