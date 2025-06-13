@@ -7,9 +7,11 @@ if (process.env.NODE_ENV !== 'production') {
 const {
   PORT,
   FRONTEND_URL,
-  FIREBASE_KEY
+  FIREBASE_KEY,
+  ACCESS_TOKEN
 } = process.env
 
 export const port = PORT ?? '0'
 export const frontendUrl = FRONTEND_URL ?? ''
 export const firebaseKey = FIREBASE_KEY ?? ''
+export const accessToken = ACCESS_TOKEN ?? ''
