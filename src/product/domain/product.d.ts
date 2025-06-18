@@ -1,5 +1,5 @@
 export interface Product {
-  _uuid: string
+  id: string
   name: string
   tags: string[]
   description: string
@@ -7,9 +7,9 @@ export interface Product {
   price: number
 }
 
-export type NewProduct = Omit<Product, '_uuid'>
+export type NewProduct = Omit<Product, 'id'>
 
-export type UpdateProduct = Partial<Omit<Product, '_uuid'>>
+export type UpdateProduct = Partial<Omit<Product, 'id'>>
 
 export interface ProductUseCase {
   success: boolean
