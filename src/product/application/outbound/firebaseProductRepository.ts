@@ -6,7 +6,7 @@ export class FireBaseProductRepository implements ProductRepository {
     const idProduct = (await db.collection('products').add(newProduct)).id
 
     const productProcessed = {
-      _uuid: idProduct,
+      id: idProduct,
       name: newProduct.name,
       tags: newProduct.tags,
       description: newProduct.description,
@@ -18,30 +18,30 @@ export class FireBaseProductRepository implements ProductRepository {
   }
 
   async getProductById (id: string): Promise<Product | null> {
-    const snapshot = await db
+    const doc = await db
       .collection('products')
-      .where('_uuid', '==', id)
-      .limit(1)
+      .doc(id)
       .get()
-    if (snapshot.empty) {
+
+    if (!doc.exists) {
       return null
     }
-    const product = snapshot.docs[0].data() as unknown as Product
+
+    const product = doc.data() as Product
     return product
   }
 
   async updateProduct (setData: UpdateProduct, id: string): Promise<Product | null> {
     const snapshot = await db
       .collection('products')
-      .where('_uuid', '==', id)
-      .limit(1)
+      .doc(id)
       .get()
-    if (snapshot.empty) return null
+    if (!snapshot.exists) return null
 
-    await snapshot.docs[0].ref.update(setData)
+    await snapshot.ref.update(setData)
 
     const updatedProduct: Product = {
-      ...snapshot.docs[0].data() as unknown as Product,
+      ...snapshot.data() as unknown as Product,
       ...setData
     }
     return updatedProduct

@@ -2,10 +2,10 @@ POST http://localhost:3000/product HTTP/1.1
 content-type: application/json
 
 {
-  "name": "panchubi",
-  "description": "un panchubi con mayonesa",
+  "name": "balatro",
+  "description": "balatro balatrez de los balatros",
   "tags": ["pancho", "panchubi", "le pongo queso y ahora es veneco", "wasa"],
-  "image": "https://www.ab173.com/upload/default/2024/0802/5dbb5e90e50b1b741d482a129f2d3a12.png",
+  "image": "https://cdn.unduel.com/D96E47BC-1A1F-460A-B8DA-6AAA50012108/invisible-joker.webp?width=384&quality=85",
   "price": 2499
 }
 
@@ -24,15 +24,15 @@ GET http://localhost:3000/product?tags=wasa&tags=panchubi HTTP/1.1
 
 ###
 
-GET http://localhost:3000/product/95a551c2-c68e-4043-8b80-fe2ad53d6593 HTTP/1.1
+GET http://localhost:3000/product/c6Wr1eeUsMKjyV8eOWub HTTP/1.1
 
 ###
 
-PUT http://localhost:3000/product/95a551c2-c68e-4043-8b80-fe2ad53d6593 HTTP/1.1
+PUT http://localhost:3000/product/c6Wr1eeUsMKjyV8eOWub HTTP/1.1
 content-type: application/json
 
 {
   "data": {
-    "name": "wasa"
+    "name": "BALATREATE PORFA"
   }
 }

@@ -1,13 +1,6 @@
 import { SafeParseReturnType, z } from 'zod'
 
 const productSchema = z.object({
-  _uuid: z
-    .string({
-      invalid_type_error: '_uuid must be string',
-      required_error: '_uuid is required'
-    })
-    .nonempty('_uuid cannot be empty'),
-
   name: z
     .string({
       invalid_type_error: 'name must be string',
@@ -46,15 +39,9 @@ const productSchema = z.object({
     .int('price must be integer')
 })
 
-const createProductSchema = productSchema.omit({
-  _uuid: true
-})
+const createProductSchema = productSchema
 
-const partialProductSchema = productSchema.omit({ _uuid: true }).partial()
-
-export function validProduct (input: unknown): SafeParseReturnType<unknown, z.infer<typeof productSchema>> {
-  return productSchema.safeParse(input)
-}
+const partialProductSchema = productSchema.partial()
 
 export function validPartialProduct (input: unknown): SafeParseReturnType<unknown, z.infer<typeof partialProductSchema>> {
   return partialProductSchema.safeParse(input)
