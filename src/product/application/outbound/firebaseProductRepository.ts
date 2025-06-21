@@ -56,8 +56,10 @@ export class FireBaseProductRepository implements ProductRepository {
 
     const snapshot = await query.get()
 
-    const allProducts: Product[] = snapshot.docs.map(doc => doc.data() as Product)
-
+    const allProducts: Product[] = snapshot.docs.map(doc => ({
+      id: doc.id,
+      ...doc.data()
+    } as unknown as Product))
     return allProducts
   }
 }

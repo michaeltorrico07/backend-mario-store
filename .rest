@@ -18,9 +18,12 @@ content-type: application/json
   "description": "un panchubi con mayonesa",
   "tags": ["pancho", "panchubi", "le pongo queso y ahora es veneco"]
 }
-
+productosbalatro
 ###
 GET http://localhost:3000/product?tags=wasa&tags=panchubi HTTP/1.1
+
+###
+GET http://localhost:3000/product HTTP/1.1
 
 ###
 
