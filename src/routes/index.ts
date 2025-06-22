@@ -9,7 +9,7 @@ const router = Router()
 
 router.use('/product', productRouter)
 router.use('/order', AuthMiddleware, orderRouter)
-router.use('/user', AuthMiddleware, userRouter)
+router.use('/user', userRouter)
 router.use('/payment', AuthMiddleware, paymentRouter)
 
 export default router
