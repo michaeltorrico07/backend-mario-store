@@ -8,6 +8,7 @@ admin.initializeApp({
 })
 
 export const db = admin.firestore()
+export const auth = admin.auth()
 
 async function checkFirestoreConnection (): Promise<void> {
   try {

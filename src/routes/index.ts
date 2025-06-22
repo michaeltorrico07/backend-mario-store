@@ -3,12 +3,13 @@ import orderRouter from '../order/infrastructure/orderRouter'
 import productRouter from '../product/infrastructure/productRouter'
 import userRouter from '../user/infrastructure/userRouter'
 import paymentRouter from '../payment/infrastructure/paymentRouter'
+import { AuthMiddleware } from '../infrastructure/middlewares/AuthMiddleware'
 
 const router = Router()
 
 router.use('/product', productRouter)
-router.use('/order', orderRouter)
-router.use('/user', userRouter)
-router.use('/payment', paymentRouter)
+router.use('/order', AuthMiddleware, orderRouter)
+router.use('/user', AuthMiddleware, userRouter)
+router.use('/payment', AuthMiddleware, paymentRouter)
 
 export default router
