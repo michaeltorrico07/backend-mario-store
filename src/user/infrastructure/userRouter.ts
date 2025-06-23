@@ -6,7 +6,7 @@ const router = Router()
 const controller = new UserController()
 
 router.post('/', controller.createUser)
-router.put('/:id', AuthMiddleware, controller.updateUser)
-router.get('/:id', AuthMiddleware, controller.getUser)
+router.put('/', AuthMiddleware, controller.updateUser)
+router.get('/', AuthMiddleware, controller.getUser)
 
 export default router

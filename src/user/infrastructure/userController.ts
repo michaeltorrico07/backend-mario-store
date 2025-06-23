@@ -1,6 +1,7 @@
 import { Request, Response } from 'express'
 import { validUser, validUpdateUser } from '../domain/userSchema'
 import { createUserUseCase, updateUserUseCase, getUserUseCase } from '../application/inbound'
+import { CustomRequest } from '../../infrastructure/domain/auth'
 
 export class UserController {
   createUser = async (req: Request, res: Response): Promise<void> => {
@@ -30,8 +31,8 @@ export class UserController {
     }
   }
 
-  updateUser = async (req: Request, res: Response): Promise<void> => {
-    const { id } = req.params
+  updateUser = async (req: CustomRequest, res: Response): Promise<void> => {
+    const id = req?.user?.uid
     const data = req.body
     try {
       const result = validUpdateUser(data)
@@ -41,7 +42,7 @@ export class UserController {
           .json({ error: 'Bad request', errors_messages: result.error.errors })
         return
       }
-      const response = await updateUserUseCase(result.data, id)
+      const response = await updateUserUseCase(result.data, id as string)
       if (!response.success) {
         res
           .status(500)
@@ -58,10 +59,10 @@ export class UserController {
     }
   }
 
-  getUser = async (req: Request, res: Response): Promise<void> => {
-    const { id } = req.params
+  getUser = async (req: CustomRequest, res: Response): Promise<void> => {
+    const id = req?.user?.uid
     try {
-      const response = await getUserUseCase(id)
+      const response = await getUserUseCase(id as string)
       if (!response.success) {
         res
           .status(500)
