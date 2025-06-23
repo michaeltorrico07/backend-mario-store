@@ -7,7 +7,7 @@ interface OrderProduct {
 export interface Order {
   idUser: string
   listProducts: OrderProduct[]
-  deliverDate: string
+  deliverDate: Date
   delivered: boolean
 }
 
