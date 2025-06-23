@@ -32,11 +32,10 @@ const orderSchema = z.object({
       })
     ),
   deliverDate: z
-    .string({
-      invalid_type_error: 'deliverDate must be string',
+    .date({
+      invalid_type_error: 'deliverDate must be date',
       required_error: 'deliverDate is required'
-    })
-    .nonempty('deliverDate cannot be empty'),
+    }),
   delivered: z
     .boolean({
       required_error: 'delivired is required'

@@ -21,7 +21,12 @@ export class FirebaseOrderRespository implements OrderRepository {
 
   async getOrdersByUser (idUser: string): Promise<Order[]> {
     const snapshot = await db.collection('orders').where('idUser', '==', idUser).get()
-    const orders: Order[] = snapshot.docs.map(doc => doc.data() as Order)
+    const orders: Order[] = snapshot.docs.map(doc => {
+      const order = doc.data()
+      order.deliverDate = order.deliverDate.toDate()
+      return order as Order
+    })
+    orders.sort((a, b) => a.deliverDate.getTime() - b.deliverDate.getTime())
     return orders
   }
 
