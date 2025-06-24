@@ -1,5 +1,6 @@
 import { Request, Response } from 'express'
 import { validCreateOrder } from '../domain/orderScheme'
+import { CustomRequest } from '../../infrastructure/domain/auth'
 import { createOrderUseCase, cancelOrderUseCase, deliverOrderUseCase, getOrdersByUserUseCase, getOrderByIdUseCase, getNextOrdersUseCase } from '../application/inbound'
 
 export class OrderController {
@@ -73,10 +74,10 @@ export class OrderController {
     }
   }
 
-  getOrdersByUser = async (req: Request, res: Response): Promise<void> => {
-    const { id } = req.params
+  getOrdersByUser = async (req: CustomRequest, res: Response): Promise<void> => {
+    const id = req?.user?.uid
     try {
-      const response = await getOrdersByUserUseCase(id)
+      const response = await getOrdersByUserUseCase(id as string)
 
       if (!response.success) {
         res

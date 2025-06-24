@@ -9,6 +9,6 @@ router.delete('/:id', controller.cancelOrder)
 router.put('/:id', controller.deliverOrder)
 router.get('/', controller.getNextOrders)
 router.get('/:id', controller.getOrderById)
-router.get('/user/:id', controller.getOrdersByUser)
+router.get('/user/', controller.getOrdersByUser)
 
 export default router
