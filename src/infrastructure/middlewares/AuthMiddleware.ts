@@ -8,6 +8,7 @@ export const AuthMiddleware = async (req: CustomRequest, res: Response, next: Ne
   console.log(authorization)
 
   if (authorization == null || !authorization.startsWith('Bearer ')) {
+    console.log('')
     res.status(401).json({ message: 'Unauthorized' })
     return
   }
