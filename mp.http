@@ -21,3 +21,5 @@ content-type: application/json
     "email": "balatrodelosbalatrez@gmail.com"
   }
 }
+###
+POST http://localhost:3000/payment/webhook
