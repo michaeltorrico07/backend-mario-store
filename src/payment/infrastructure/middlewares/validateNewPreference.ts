@@ -1,7 +1,8 @@
-import { Request, Response, NextFunction } from 'express'
+import { Response, NextFunction } from 'express'
 import { validatePreferenceBody } from '../../domain/schemaBodyPreference'
+import { PreferenceRequest, ReqValidatedBody } from '../../domain/payment'
 
-export const validatePreferenceBodyMiddleware = (req: Request, res: Response, next: NextFunction): void => {
+export const validatePreferenceBodyMiddleware = (req: ReqValidatedBody, res: Response, next: NextFunction): void => {
   const result = validatePreferenceBody(req.body)
 
   if (!result.success) {
@@ -11,7 +12,7 @@ export const validatePreferenceBodyMiddleware = (req: Request, res: Response, ne
     })
     return
   }
+  req.data = result.data as unknown as PreferenceRequest
 
-  req.body = result.data
   next()
 }

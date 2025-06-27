@@ -1,10 +1,12 @@
 import { Router } from 'express'
-import { PaymentController } from '../controllers/paymentWriteController'
+import { PaymentWriteController, PaymentWebHookController } from '../controllers'
 import { validatePreferenceBodyMiddleware } from '../middlewares/validateNewPreference'
 
 const router = Router()
-const controller = new PaymentController()
+const writeController = new PaymentWriteController()
+const webHookController = new PaymentWebHookController()
 
-router.post('/', validatePreferenceBodyMiddleware, controller.createOrder)
+router.post('/', validatePreferenceBodyMiddleware, writeController.createPreference)
+router.post('/webhook', webHookController.handleWebHook)
 
 export default router
