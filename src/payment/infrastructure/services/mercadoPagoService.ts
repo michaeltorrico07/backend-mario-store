@@ -11,7 +11,13 @@ export const preference = new Preference(client)
 
 export class MercadoPagoService implements IPaymentGateway {
   async createPreference (data: PreferenceCreateData): Promise<PreferenceResponse> {
-    const response = await preference.create(data)
+    const response = await preference.create({
+      ...data,
+      body: {
+        ...data.body,
+        notification_url: 'https://backend-mario-store.vercel.app/payment/webhook'
+      }
+    })
     return response
   }
 }
