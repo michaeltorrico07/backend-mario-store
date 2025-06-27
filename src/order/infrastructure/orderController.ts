@@ -75,9 +75,9 @@ export class OrderController {
   }
 
   getOrdersByUser = async (req: CustomRequest, res: Response): Promise<void> => {
-    const id = req?.user?.uid
+    const id = req?.user?.uid as string
     try {
-      const response = await getOrdersByUserUseCase(id as string)
+      const response = await getOrdersByUserUseCase(id)
 
       if (!response.success) {
         res

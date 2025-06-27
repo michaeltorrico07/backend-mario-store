@@ -1,5 +1,6 @@
 import { db } from '../../../infrastructure/db/firebase'
-import { OrderRepository, CreateOrder, Order } from '../../domain/order'
+import { Product } from '../../../product/domain/product'
+import { OrderRepository, CreateOrder, Order, OrderTicket, OrderTicketProduct, OrderProduct } from '../../domain/order'
 
 export class FirebaseOrderRespository implements OrderRepository {
   async createOrder (newOrder: CreateOrder): Promise<boolean> {
@@ -19,15 +20,32 @@ export class FirebaseOrderRespository implements OrderRepository {
     return true
   }
 
-  async getOrdersByUser (idUser: string): Promise<Order[]> {
+  async getOrdersByUser (idUser: string): Promise<OrderTicket[]> {
     const snapshot = await db.collection('orders').where('idUser', '==', idUser).get()
-    const orders: Order[] = snapshot.docs.map(doc => {
-      const order = doc.data()
-      order.deliverDate = order.deliverDate.toDate()
-      return order as Order
-    })
-    orders.sort((a, b) => a.deliverDate.getTime() - b.deliverDate.getTime())
-    return orders
+    const orderTickets: OrderTicket[] = await Promise.all(snapshot.docs.map(async doc => {
+      const orderData = doc.data()
+      const orderTicket: OrderTicket = {
+        code: orderData.code,
+        listProducts: [],
+        deliverDate: orderData.deliverDate.toDate(),
+        delivered: orderData.delivered,
+        totalPrice: 0
+      }
+      await Promise.all(orderData.listProducts.map(async (product: OrderProduct) => {
+        const productRef = db.collection('products').doc(product.idProduct)
+        const productData = (await productRef.get()).data() as Product
+        orderTicket.totalPrice += productData?.price * product.amount
+        const orderTicketProduct: OrderTicketProduct = {
+          name: productData?.name,
+          price: productData?.price,
+          amount: product.amount
+        }
+        orderTicket.listProducts.push(orderTicketProduct)
+      }))
+      return orderTicket
+    }))
+    orderTickets.sort((a, b) => a.deliverDate.getTime() - b.deliverDate.getTime())
+    return orderTickets
   }
 
   async getOrderById (idOrder: string): Promise<Order> {
