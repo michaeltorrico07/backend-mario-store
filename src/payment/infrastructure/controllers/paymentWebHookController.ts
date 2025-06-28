@@ -4,12 +4,13 @@ import crypto from 'crypto'
 import { secretKey } from '../../../infrastructure/config/envConfig'
 export class PaymentWebHookController {
   handleWebHook = async (req: Request, res: Response): Promise<void> => {
-    const { topic, type, action } = req.body
+    const { topic, type } = req.body
 
     const eventType = topic ?? type
-
+    console.log(req.body)
     switch (eventType) {
       case 'payment':
+        const action = req.body
         switch (action) {
           case 'created':
             console.log(eventType, action, req.body)
