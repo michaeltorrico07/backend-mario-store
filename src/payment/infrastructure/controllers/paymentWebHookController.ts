@@ -5,9 +5,10 @@ export class PaymentWebHookController {
   handleWebHook = async (req: Request, res: Response): Promise<void> => {
     const xSignature = req.headers['x-signature'] as string
     const xRequestId = req.headers['x-request-id'] as string
-    const dataID = req.body.data.id?.toString()?.toLowerCase() as string ?? ''
 
     console.log(req.body)
+
+    const dataID = req.body.data.id?.toString()?.toLowerCase() as string ?? ''
 
     const { type, data, action } = req.body
 
