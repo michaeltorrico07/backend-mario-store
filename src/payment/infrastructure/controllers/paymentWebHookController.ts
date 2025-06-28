@@ -7,6 +7,8 @@ export class PaymentWebHookController {
     const xRequestId = req.headers['x-request-id'] as string
     const dataID = req.body.data.id?.toString()?.toLowerCase() as string ?? ''
 
+    console.log(req.body)
+
     const { type, data, action } = req.body
 
     if (typeof (xSignature) !== 'string') {
