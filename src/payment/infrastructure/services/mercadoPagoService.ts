@@ -11,6 +11,7 @@ export const preference = new Preference(client)
 
 export class MercadoPagoService implements IPaymentGateway {
   async createPreference (data: PreferenceCreateData): Promise<PreferenceResponse> {
+    console.log(`${backendUrl}/payment/webhook`)
     const response = await preference.create({
       body: {
         ...data.body,

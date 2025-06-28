@@ -3,6 +3,8 @@ import { Response, Request } from 'express'
 export class PaymentWebHookController {
   handleWebHook = async (req: Request, res: Response): Promise<void> => {
     const xSignature = req.headers['x-signature'] as string
+    const xRequestId = req.headers['x-request-id'] as string
+    console.log(xRequestId)
     const { type, data, action } = req.body
 
     if (typeof (xSignature) !== 'string') {
@@ -16,6 +18,7 @@ export class PaymentWebHookController {
       if (typeof key === 'string' && key.trim() !== '' && typeof value === 'string' && value.trim() !== '') acc[key.trim()] = value.trim()
       return acc
     }, {})
+
     const timestamp = arrayXSignature.ts
     const signature = arrayXSignature.v1
 
