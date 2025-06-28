@@ -59,7 +59,7 @@ export class PaymentWebHookController {
             console.log(eventType, action, req.body)
             break
           default:
-            console.log('sajdfaisfaoisdhfgaiosgfhoasdgfi')
+            console.log('sajdfaisfaoisdhfgaiosgfhoasdgfi', action)
             break
         }
         break
