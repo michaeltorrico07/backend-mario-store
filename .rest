@@ -27,15 +27,15 @@ GET http://localhost:3000/product HTTP/1.1
 
 ###
 
-GET http://localhost:3000/product/c6Wr1eeUsMKjyV8eOWub HTTP/1.1
+GET http://localhost:3000/product/0AEab3gh6K7f7J27G4H9 HTTP/1.1
 
 ###
 
-PUT http://localhost:3000/product/c6Wr1eeUsMKjyV8eOWub HTTP/1.1
+PUT http://localhost:3000/product/0AEab3gh6K7f7J27G4H9 HTTP/1.1
 content-type: application/json
 
 {
   "data": {
-    "name": "BALATREATE PORFA"
+    "name": "BALATREZ BALATRIN"
   }
 }

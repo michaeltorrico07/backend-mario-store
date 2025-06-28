@@ -5,7 +5,6 @@ import { CustomRequest } from '../domain/auth'
 // Middleware para validar el token de Firebase
 export const AuthMiddleware = async (req: CustomRequest, res: Response, next: NextFunction): Promise<void> => {
   const { authorization } = req.headers
-  console.log(authorization)
 
   if (authorization == null || !authorization.startsWith('Bearer ')) {
     console.log('')

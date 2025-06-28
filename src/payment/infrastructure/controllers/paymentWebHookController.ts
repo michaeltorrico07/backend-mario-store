@@ -2,7 +2,9 @@ import { Response, Request } from 'express'
 
 export class PaymentWebHookController {
   handleWebHook = async (req: Request, res: Response): Promise<void> => {
+    const { header } = req
     const { type, data, action } = req.body
+    console.log(header)
     console.log(req.body)
     switch (type) {
       case 'payment':
@@ -15,5 +17,6 @@ export class PaymentWebHookController {
         break
     }
     console.log('webhook')
+    res.status(200)
   }
 }

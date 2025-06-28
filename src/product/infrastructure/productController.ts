@@ -52,8 +52,9 @@ export class ProductController {
 
   updateProduct = async (req: Request, res: Response): Promise<void> => {
     const { id } = req.params
-    const { data } = req.body
-
+    const data = req.body
+    console.log(req.body)
+    console.log(id, data)
     try {
       const result = validPartialProduct(data)
 
