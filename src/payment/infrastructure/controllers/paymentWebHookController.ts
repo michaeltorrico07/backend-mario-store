@@ -1,7 +1,8 @@
+/* eslint-disable @typescript-eslint/restrict-template-expressions */
 /* eslint-disable no-case-declarations */
 import { Response, Request } from 'express'
 import crypto from 'crypto'
-import { secretKey } from '../../../infrastructure/config/envConfig'
+import { accessToken, secretKey } from '../../../infrastructure/config/envConfig'
 export class PaymentWebHookController {
   handleWebHook = async (req: Request, res: Response): Promise<void> => {
     const { topic, type } = req.body
@@ -65,7 +66,12 @@ export class PaymentWebHookController {
         }
         break
       case 'merchant_order':
-        console.log('se recibio ezeta')
+        const response = await fetch(`https://api.mercadopago.com/v1/payments/${req.body.resource}`, {
+          headers: {
+            Authorization: `Bearer ${accessToken}`
+          }
+        })
+        console.log('se recibio ezeta', response)
         break
       default:
         console.log('unsa a los geis', eventType, action, req.body)
