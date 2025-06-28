@@ -35,7 +35,5 @@ PUT http://localhost:3000/product/0AEab3gh6K7f7J27G4H9 HTTP/1.1
 content-type: application/json
 
 {
-  "data": {
-    "name": "BALATREZ BALATRIN"
-  }
+  "name": "BALATREZ BALATRIN"
 }

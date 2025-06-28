@@ -1,5 +1,5 @@
 import { MercadoPagoConfig, Preference } from 'mercadopago'
-import { accessToken } from '../../../infrastructure/config/envConfig'
+import { accessToken, backendUrl } from '../../../infrastructure/config/envConfig'
 import { IPaymentGateway } from '../../application/outbound/IPaymentGateway'
 import { PreferenceCreateData, PreferenceResponse } from '../../domain/payment'
 
@@ -15,7 +15,7 @@ export class MercadoPagoService implements IPaymentGateway {
       ...data,
       body: {
         ...data.body,
-        notification_url: 'https://backend-mario-store.vercel.app/payment/webhook'
+        notification_url: backendUrl
       }
     })
     return response
