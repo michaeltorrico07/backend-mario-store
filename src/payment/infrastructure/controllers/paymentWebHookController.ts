@@ -10,9 +10,9 @@ export class PaymentWebHookController {
     console.log(req.body)
     switch (eventType) {
       case 'payment':
-        const action = req.body
+        const action = req.body.action
         switch (action) {
-          case 'created':
+          case 'payment.created':
             console.log(eventType, action, req.body)
             const xSignature = req.headers['x-signature'] as string
             const xRequestId = req.headers['x-request-id'] as string
@@ -47,16 +47,16 @@ export class PaymentWebHookController {
               console.log('HMAC verification failed')
             }
             break
-          case 'updated':
+          case 'payment.updated':
             console.log(eventType, action, req.body)
             break
-          case 'refunded':
+          case 'payment.refunded':
             console.log(eventType, action, req.body)
             break
-          case 'cancelled':
+          case 'payment.cancelled':
             console.log(eventType, action, req.body)
             break
-          case 'chargeback':
+          case 'payment.chargeback':
             console.log(eventType, action, req.body)
             break
           default:
@@ -68,7 +68,7 @@ export class PaymentWebHookController {
         console.log('se recibio ezeta')
         break
       default:
-        console.log('unsa a los geis')
+        console.log('unsa a los geis', eventType, action, req.body)
         break
     }
     res.status(200)
