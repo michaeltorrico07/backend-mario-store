@@ -1,5 +1,5 @@
 import { MercadoPagoConfig, Preference } from 'mercadopago'
-import { accessToken, backendUrl } from '../../../infrastructure/config/envConfig'
+import { accessToken } from '../../../infrastructure/config/envConfig'
 import { IPaymentGateway } from '../../application/outbound/IPaymentGateway'
 import { PreferenceCreateData, PreferenceResponse } from '../../domain/payment'
 
@@ -11,11 +11,9 @@ export const preference = new Preference(client)
 
 export class MercadoPagoService implements IPaymentGateway {
   async createPreference (data: PreferenceCreateData): Promise<PreferenceResponse> {
-    console.log(`${backendUrl}/payment/webhook`)
     const response = await preference.create({
       body: {
-        ...data.body,
-        notification_url: `${backendUrl}/payment/webhook`
+        ...data.body
       }
     })
     return response
