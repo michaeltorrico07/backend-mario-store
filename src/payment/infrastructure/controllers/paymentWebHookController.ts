@@ -24,14 +24,6 @@ export class PaymentWebHookController {
     const timestamp = arrayXSignature.ts
     const signature = arrayXSignature.v1
 
-    console.log(xSignature)
-    console.log(xRequestId)
-    console.log(dataID)
-    console.log(req.body)
-    console.log(arrayXSignature)
-    console.log(timestamp)
-    console.log(signature)
-
     const manifest = `id:${dataID};request-id:${xRequestId};ts:${timestamp};`
 
     const cyphedSignature = crypto.createHmac('sha256', secretKey).update(manifest).digest('hex')
