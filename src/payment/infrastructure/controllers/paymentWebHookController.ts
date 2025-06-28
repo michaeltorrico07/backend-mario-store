@@ -5,16 +5,30 @@ import crypto from 'crypto'
 import { accessToken, secretKey } from '../../../infrastructure/config/envConfig'
 export class PaymentWebHookController {
   handleWebHook = async (req: Request, res: Response): Promise<void> => {
-    const { topic, type } = req.body
+    const { topic } = req.body
 
-    const eventType = topic ?? type
     console.log(req.body)
-    switch (eventType) {
+
+    const response = await fetch(`https://api.mercadopago.com/v1/payments/${req.body.resource}`, {
+      headers: {
+        Authorization: `Bearer ${accessToken}`
+      }
+    })
+
+    console.log(response)
+    switch (topic) {
       case 'payment':
-        const action = req.body.action
+
+        const response = await fetch(`https://api.mercadopago.com/v1/payments/${req.body.resource}`, {
+          headers: {
+            Authorization: `Bearer ${accessToken}`
+          }
+        })
+        console.log(response)
+        const action = response.status as unknown as string
         switch (action) {
           case 'payment.created':
-            console.log(eventType, action, req.body)
+            console.log(topic, action, req.body)
             const xSignature = req.headers['x-signature'] as string
             const xRequestId = req.headers['x-request-id'] as string
 
@@ -48,33 +62,16 @@ export class PaymentWebHookController {
               console.log('HMAC verification failed')
             }
             break
-          case 'payment.updated':
-            console.log(eventType, action, req.body)
-            break
-          case 'payment.refunded':
-            console.log(eventType, action, req.body)
-            break
-          case 'payment.cancelled':
-            console.log(eventType, action, req.body)
-            break
-          case 'payment.chargeback':
-            console.log(eventType, action, req.body)
-            break
           default:
             console.log('sajdfaisfaoisdhfgaiosgfhoasdgfi', action)
             break
         }
         break
       case 'merchant_order':
-        const response = await fetch(`https://api.mercadopago.com/v1/payments/${req.body.resource}`, {
-          headers: {
-            Authorization: `Bearer ${accessToken}`
-          }
-        })
-        console.log('se recibio ezeta', response)
+        console.log('se recibio ezeta')
         break
       default:
-        console.log('unsa a los geis', eventType, action, req.body)
+        console.log('unsa a los geis', topic, req.body)
         break
     }
     res.status(200)
