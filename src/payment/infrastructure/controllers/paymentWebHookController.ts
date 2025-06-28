@@ -1,13 +1,12 @@
 import { Response, Request } from 'express'
-
+import crypto from 'crypto'
+import { secretKey } from '../../../infrastructure/config/envConfig'
 export class PaymentWebHookController {
   handleWebHook = async (req: Request, res: Response): Promise<void> => {
     const xSignature = req.headers['x-signature'] as string
     const xRequestId = req.headers['x-request-id'] as string
-    const dataID = req.query['data.id']?.toString()?.toLowerCase()
-    console.log(xSignature)
-    console.log(xRequestId)
-    console.log(dataID)
+    const dataID = req.query.id?.toString()?.toLowerCase() ?? ''
+
     const { type, data, action } = req.body
 
     if (typeof (xSignature) !== 'string') {
@@ -25,13 +24,24 @@ export class PaymentWebHookController {
     const timestamp = arrayXSignature.ts
     const signature = arrayXSignature.v1
 
-    // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
+    console.log(xSignature)
+    console.log(xRequestId)
+    console.log(dataID)
+    console.log(req.body)
+    console.log(arrayXSignature)
+    console.log(timestamp)
+    console.log(signature)
+
     const manifest = `id:${dataID};request-id:${xRequestId};ts:${timestamp};`
 
-    console.log(req.body)
-    console.log(req.query)
-    console.log(req.headers)
-    console.log(timestamp, signature)
+    const cyphedSignature = crypto.createHmac('sha256', secretKey).update(manifest).digest('hex')
+
+    if (cyphedSignature === signature) {
+      console.log('HMAC verification passed')
+    } else {
+      // HMAC verification failed
+      console.log('HMAC verification failed')
+    }
     switch (type) {
       case 'payment':
         console.log(data, action)
@@ -42,7 +52,6 @@ export class PaymentWebHookController {
         console.log('unsa a los geis')
         break
     }
-    console.log('webhook')
     res.status(200)
   }
 }
