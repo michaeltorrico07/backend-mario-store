@@ -4,7 +4,10 @@ export class PaymentWebHookController {
   handleWebHook = async (req: Request, res: Response): Promise<void> => {
     const xSignature = req.headers['x-signature'] as string
     const xRequestId = req.headers['x-request-id'] as string
+    const dataID = req.query['data.id']?.toString()?.toLowerCase()
+    console.log(xSignature)
     console.log(xRequestId)
+    console.log(dataID)
     const { type, data, action } = req.body
 
     if (typeof (xSignature) !== 'string') {
@@ -22,7 +25,12 @@ export class PaymentWebHookController {
     const timestamp = arrayXSignature.ts
     const signature = arrayXSignature.v1
 
+    // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
+    const manifest = `id:${dataID};request-id:${xRequestId};ts:${timestamp};`
+
     console.log(req.body)
+    console.log(req.query)
+    console.log(req.headers)
     console.log(timestamp, signature)
     switch (type) {
       case 'payment':
