@@ -8,7 +8,7 @@ export class PaymentWebHookController {
   handleWebHook = async (req: Request, res: Response): Promise<void> => {
     const { topic, type } = req.body
     const event = topic ?? type
-
+    console.log(req.body)
     switch (event) {
       case 'payment':
         const { action, resource } = req.body
@@ -55,22 +55,10 @@ export class PaymentWebHookController {
         }
         break
       case 'merchant_order':
-        const xSignature = req.headers['x-signature'] as string
-        const xRequestId = req.headers['x-request-id'] as string
-        const dataId = req.body.resource?.split('/').pop() ?? ''
-        console.log(dataId)
-        console.log(xRequestId)
-        console.log(xSignature)
-        const response = mercadopagoService.verifyMercadoPagoHmac({ xSignature, requestId: xRequestId, dataId })
-        if (response) {
-          console.log('pass')
-        } else {
-          console.log('passnt')
-        }
-        console.log('recibido', req.body)
+        console.log('recibido la merchant')
         break
       default:
-        console.log('wdkjawifawsfhasgfhaws', req.body)
+        console.log('wdkjawifawsfhasgfhaws')
         break
     }
     res.status(200)
