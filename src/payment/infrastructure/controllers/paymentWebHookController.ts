@@ -10,7 +10,9 @@ export class PaymentWebHookController {
     const event = topic ?? type
     const xSignature = req.headers['x-signature'] as string
     const xRequestId = req.headers['x-request-id'] as string
-    const dataId = req.body.data.id?.toString()?.toLowerCase() ?? req.body.resource.split('/').pop()
+    const dataId = req.body?.data?.id != null
+      ? req.body.data.id.toString().toLowerCase()
+      : req.body?.resource?.split('/')?.pop()
     const response = mercadopagoService.verifyMercadoPagoHmac({ xSignature, requestId: xRequestId, dataId })
     if (response) {
       console.log('pass')
