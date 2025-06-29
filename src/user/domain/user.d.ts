@@ -4,9 +4,10 @@ export interface User {
   lastName: string
   email: string
   dni: string
+  rol?: 'chef' | 'employee'
 }
 
-export type UpdateUser = Partial<Omit<User, 'id'>>
+export type UpdateUser = Partial<Omit<User, 'id' | 'rol'>>
 
 export interface UserUseCase {
   success: boolean
