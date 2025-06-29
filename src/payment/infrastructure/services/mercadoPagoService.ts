@@ -1,7 +1,7 @@
 import { MercadoPagoConfig, Preference } from 'mercadopago'
 import { accessToken, secretKey, backendUrl } from '../../../infrastructure/config/envConfig'
 import { IPaymentGateway } from '../../application/outbound/IPaymentGateway'
-import { PreferenceCreateData, PreferenceResponse, GetPaymentProps, VerifyMercadoPagoHmac } from '../../domain/payment'
+import { PreferenceCreateData, PreferenceResponse, GetPaymentProps, VerifyMercadoPagoHmac, PaymentResponse } from '../../domain/payment'
 import crypto from 'crypto'
 
 const client = new MercadoPagoConfig({
@@ -21,7 +21,7 @@ export class MercadoPagoService implements IPaymentGateway {
     return response
   }
 
-  async getPaymentDetails ({ paymentId }: GetPaymentProps): Promise<unknown> {
+  async getPaymentDetails ({ paymentId }: GetPaymentProps): Promise<PaymentResponse> {
     const idAsString = paymentId as string
     const response = await fetch(`https://api.mercadopago.com/v1/payments/${idAsString}`, {
       method: 'GET',

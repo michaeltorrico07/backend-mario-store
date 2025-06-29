@@ -26,12 +26,15 @@ export class PaymentWebHookController {
               }
 
               break
+            default:
+              console.log(action)
+              break
           }
         }
         if (resource !== undefined) {
           console.log(resource)
           const data = await mercadopagoService.getPaymentDetails({ paymentId: resource })
-          console.log(data)
+          if (data?.status === 'approved' && data.status_detail === 'accredited') console.log('guardar en la db la order')
         }
         break
       case 'merchant_order':

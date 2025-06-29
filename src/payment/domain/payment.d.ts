@@ -2,6 +2,7 @@ import { PreferenceResponse, PreferenceRequest } from 'mercadopago/dist/clients/
 import { Options } from 'mercadopago/dist/types'
 import { Request } from 'express'
 export { PreferenceResponse, PreferenceRequest } from 'mercadopago/dist/clients/preference/commonTypes'
+export { PaymentResponse } from 'mercadopago/dist/clients/payment/commonTypes'
 
 export interface PaymentUseCase<TData = PreferenceResponse> {
   success: boolean
