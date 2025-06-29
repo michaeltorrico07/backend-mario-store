@@ -42,9 +42,11 @@ export class PaymentWebHookController {
         }
         break
       case 'merchant_order':
+        console.log(req.headers)
         console.log('recibido', req.body)
         break
       default:
+        console.log(req.headers)
         console.log('wdkjawifawsfhasgfhaws', req.body)
         break
     }
