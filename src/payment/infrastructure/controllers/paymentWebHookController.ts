@@ -33,6 +33,7 @@ export class PaymentWebHookController {
         }
         if (resource !== undefined) {
           console.log(resource)
+          console.log(req.headers)
           const data = await mercadopagoService.getPaymentDetails({ paymentId: resource })
           console.log(JSON.stringify(data.additional_info?.items, null, 2))
           console.log(data.additional_info?.payer)
