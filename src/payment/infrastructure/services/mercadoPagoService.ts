@@ -45,16 +45,6 @@ export class MercadoPagoService implements IPaymentGateway {
 
     const manifest = `id:${dataId};request-id:${requestId};ts:${timestamp};`
     const cyphedSignature = crypto.createHmac('sha256', secretKey).update(manifest).digest('hex')
-    console.log({
-      dataId,
-      xSignature,
-      requestId,
-      arrayXSignature,
-      timestamp,
-      signature,
-      manifest,
-      cyphedSignature
-    })
     return cyphedSignature === signature
   }
 }
