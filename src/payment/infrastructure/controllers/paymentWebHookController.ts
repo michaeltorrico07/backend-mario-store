@@ -29,12 +29,13 @@ export class PaymentWebHookController {
           }
         }
         if (resource !== undefined) {
+          console.log(resource)
           const data = await mercadopagoService.getPaymentDetails(resource)
           console.log(data)
         }
         break
       case 'merchant_order':
-        console.log('recibido')
+        console.log('recibido', req.body)
         break
       default:
         console.log('wdkjawifawsfhasgfhaws', req.body)
