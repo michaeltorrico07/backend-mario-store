@@ -34,6 +34,9 @@ export class PaymentWebHookController {
         if (resource !== undefined) {
           console.log(resource)
           const data = await mercadopagoService.getPaymentDetails({ paymentId: resource })
+          console.log(JSON.stringify(data.additional_info?.items, null, 2))
+          console.log(data.additional_info?.payer)
+          console.log(data.payer?.email)
           if (data?.status === 'approved' && data.status_detail === 'accredited') console.log('guardar en la db la order')
         }
         break
