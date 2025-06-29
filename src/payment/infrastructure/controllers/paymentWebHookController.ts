@@ -8,35 +8,40 @@ export class PaymentWebHookController {
   handleWebHook = async (req: Request, res: Response): Promise<void> => {
     const { topic, type } = req.body
     const event = topic ?? type
-    const xSignature = req.headers['x-signature'] as string
-    const xRequestId = req.headers['x-request-id'] as string
-    const dataId = req.body?.data?.id != null
-      ? req.body.data.id.toString().toLowerCase()
-      : req.body?.resource?.split('/')?.pop()
-    const response = mercadopagoService.verifyMercadoPagoHmac({ xSignature, requestId: xRequestId, dataId })
-    if (response) {
-      console.log('pass')
-    } else {
-      console.log('passnt')
-      console.log(req.body)
-      res.status(400).json({ error: 'credenciales invalidas' })
-      return
-    }
+
     switch (event) {
       case 'payment':
         const { action, resource } = req.body
         if (action !== undefined) {
           switch (action) {
             case 'payment.created':
-              console.log(req.body)
-              console.log('se creo un pago')
+              const xSignature = req.headers['x-signature'] as string
+              const xRequestId = req.headers['x-request-id'] as string
+              const dataId = req.body.data.id?.toString()?.toLowerCase() ?? ''
+              const response = mercadopagoService.verifyMercadoPagoHmac({ xSignature, requestId: xRequestId, dataId })
+              if (response) {
+                console.log('pass')
+              } else {
+                console.log('passnt')
+              }
+
               break
             default:
-              console.log(action, req.body)
+              console.log(action)
               break
           }
         }
         if (resource !== undefined) {
+          const xSignature = req.headers['x-signature'] as string
+          const xRequestId = req.headers['x-request-id'] as string
+          const dataId = req.body.resource ?? ''
+          const response = mercadopagoService.verifyMercadoPagoHmac({ xSignature, requestId: xRequestId, dataId })
+          if (response) {
+            console.log('pass')
+          } else {
+            console.log('passnt')
+          }
+
           console.log(resource)
           console.log(req.headers)
           const data = await mercadopagoService.getPaymentDetails({ paymentId: resource })
@@ -47,9 +52,20 @@ export class PaymentWebHookController {
         }
         break
       case 'merchant_order':
+        const xSignature = req.headers['x-signature'] as string
+        const xRequestId = req.headers['x-request-id'] as string
+        const dataId = req.body.resource?.split('/').pop() ?? ''
+        const response = mercadopagoService.verifyMercadoPagoHmac({ xSignature, requestId: xRequestId, dataId })
+        if (response) {
+          console.log('pass')
+        } else {
+          console.log('passnt')
+        }
+        console.log(req.headers)
         console.log('recibido', req.body)
         break
       default:
+        console.log(req.headers)
         console.log('wdkjawifawsfhasgfhaws', req.body)
         break
     }
