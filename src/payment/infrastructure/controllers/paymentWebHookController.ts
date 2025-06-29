@@ -15,7 +15,7 @@ export class PaymentWebHookController {
       }
     })
 
-    console.log(response)
+    console.log(response, response.json())
     switch (topic) {
       case 'payment':
 
