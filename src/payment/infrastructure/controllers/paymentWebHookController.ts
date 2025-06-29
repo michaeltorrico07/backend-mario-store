@@ -17,7 +17,7 @@ export class PaymentWebHookController {
             case 'payment.created':
               const xSignature = req.headers['x-signature'] as string
               const xRequestId = req.headers['x-request-id'] as string
-              const dataId = req.body.data.id?.toString()?.toLowerCase()
+              const dataId = req.body.data.id?.toString()?.toLowerCase() ?? ''
               const response = mercadopagoService.verifyMercadoPagoHmac({ xSignature, requestId: xRequestId, dataId })
               if (response) {
                 console.log('pass')
@@ -29,7 +29,7 @@ export class PaymentWebHookController {
           }
         }
         if (resource !== undefined) {
-          const data = mercadopagoService.getPaymentDetails(resource)
+          const data = await mercadopagoService.getPaymentDetails(resource)
           console.log(data)
         }
         break
