@@ -22,7 +22,7 @@ export class MercadoPagoService implements IPaymentGateway {
   }
 
   async getPaymentDetails ({ paymentId }: GetPaymentProps): Promise<PaymentResponse> {
-    const idAsString = paymentId as string
+    const idAsString = paymentId
     const response = await fetch(`https://api.mercadopago.com/v1/payments/${idAsString}`, {
       method: 'GET',
       headers: {
@@ -34,18 +34,16 @@ export class MercadoPagoService implements IPaymentGateway {
   }
 
   verifyMercadoPagoHmac ({ dataId, xSignature, requestId }: VerifyMercadoPagoHmac): boolean {
-    const id = dataId as string
-    const reqId = requestId as string
     const arrayXSignature = xSignature.split(',').reduce<Record<string, string>>((acc, part) => {
       const [key, value] = part.split('=')
       if (typeof key === 'string' && key.trim() !== '' && typeof value === 'string' && value.trim() !== '') acc[key.trim()] = value.trim()
       return acc
     }, {})
 
-    const timestamp = arrayXSignature.ts as string
+    const timestamp = arrayXSignature.ts
     const signature = arrayXSignature.v1
 
-    const manifest = `id:${id};request-id:${reqId};ts:${timestamp};`
+    const manifest = `id:${dataId};request-id:${requestId};ts:${timestamp};`
 
     const cyphedSignature = crypto.createHmac('sha256', secretKey).update(manifest).digest('hex')
 

@@ -1,4 +1,3 @@
-/* eslint-disable no-case-declarations */
 import { Response, Request } from 'express'
 import { MercadoPagoService } from '../services/mercadoPagoService'
 
@@ -6,21 +5,24 @@ const mercadopagoService = new MercadoPagoService()
 
 export class PaymentWebHookController {
   handleWebHook = async (req: Request, res: Response): Promise<void> => {
-    const { topic, type } = req.body
+    const { topic, type, action, resource } = req.body
     const event = topic ?? type
+    const xSignature = req.headers['x-signature'] as string
+    const xRequestId = req.headers['x-request-id'] as string
+
     console.log(req.body)
+
     switch (event) {
       case 'payment':
-        const { action, resource } = req.body
         if (action !== undefined) {
           switch (action) {
-            case 'payment.created':
-              const xSignature = req.headers['x-signature'] as string
-              const xRequestId = req.headers['x-request-id'] as string
+            case 'payment.created':{
               const dataId = req.body.data.id?.toString()?.toLowerCase() ?? ''
+
               console.log(dataId)
               console.log(xRequestId)
               console.log(xSignature)
+
               const response = mercadopagoService.verifyMercadoPagoHmac({ xSignature, requestId: xRequestId, dataId })
               if (response) {
                 console.log('pass')
@@ -29,37 +31,44 @@ export class PaymentWebHookController {
               }
 
               break
-            default:
+            }
+            default:{
               console.log(action)
               break
+            }
           }
         }
         if (resource !== undefined) {
-          const xSignature = req.headers['x-signature'] as string
-          const xRequestId = req.headers['x-request-id'] as string
           const dataId = req.body.resource ?? ''
+
           console.log(dataId)
           console.log(xRequestId)
           console.log(xSignature)
+
           const response = mercadopagoService.verifyMercadoPagoHmac({ xSignature, requestId: xRequestId, dataId })
           if (response) {
             console.log('pass')
           } else {
             console.log('passnt')
           }
+
           const data = await mercadopagoService.getPaymentDetails({ paymentId: resource })
+
           console.log(JSON.stringify(data.additional_info?.items, null, 2))
           console.log(data.additional_info?.payer)
           console.log(data.payer?.email)
+
           if (data?.status === 'approved' && data.status_detail === 'accredited') console.log('guardar en la db la order')
         }
         break
-      case 'merchant_order':
+      case 'merchant_order': {
         console.log('recibido la merchant')
         break
-      default:
+      }
+      default:{
         console.log('wdkjawifawsfhasgfhaws')
         break
+      }
     }
     res.status(200)
   }
