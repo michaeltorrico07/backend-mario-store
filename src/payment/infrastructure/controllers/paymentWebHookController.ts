@@ -18,6 +18,9 @@ export class PaymentWebHookController {
               const xSignature = req.headers['x-signature'] as string
               const xRequestId = req.headers['x-request-id'] as string
               const dataId = req.body.data.id?.toString()?.toLowerCase() ?? ''
+              console.log(dataId)
+              console.log(xRequestId)
+              console.log(xSignature)
               const response = mercadopagoService.verifyMercadoPagoHmac({ xSignature, requestId: xRequestId, dataId })
               if (response) {
                 console.log('pass')
@@ -35,15 +38,15 @@ export class PaymentWebHookController {
           const xSignature = req.headers['x-signature'] as string
           const xRequestId = req.headers['x-request-id'] as string
           const dataId = req.body.resource ?? ''
+          console.log(dataId)
+          console.log(xRequestId)
+          console.log(xSignature)
           const response = mercadopagoService.verifyMercadoPagoHmac({ xSignature, requestId: xRequestId, dataId })
           if (response) {
             console.log('pass')
           } else {
             console.log('passnt')
           }
-
-          console.log(resource)
-          console.log(req.headers)
           const data = await mercadopagoService.getPaymentDetails({ paymentId: resource })
           console.log(JSON.stringify(data.additional_info?.items, null, 2))
           console.log(data.additional_info?.payer)
@@ -55,17 +58,18 @@ export class PaymentWebHookController {
         const xSignature = req.headers['x-signature'] as string
         const xRequestId = req.headers['x-request-id'] as string
         const dataId = req.body.resource?.split('/').pop() ?? ''
+        console.log(dataId)
+        console.log(xRequestId)
+        console.log(xSignature)
         const response = mercadopagoService.verifyMercadoPagoHmac({ xSignature, requestId: xRequestId, dataId })
         if (response) {
           console.log('pass')
         } else {
           console.log('passnt')
         }
-        console.log(req.headers)
         console.log('recibido', req.body)
         break
       default:
-        console.log(req.headers)
         console.log('wdkjawifawsfhasgfhaws', req.body)
         break
     }
