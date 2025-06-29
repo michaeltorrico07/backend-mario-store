@@ -30,7 +30,7 @@ export class PaymentWebHookController {
         }
         if (resource !== undefined) {
           console.log(resource)
-          const data = await mercadopagoService.getPaymentDetails(resource)
+          const data = await mercadopagoService.getPaymentDetails({ paymentId: resource })
           console.log(data)
         }
         break

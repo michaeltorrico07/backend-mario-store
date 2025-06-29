@@ -7,12 +7,12 @@ content-type: application/json
     {
       "title": "chinchenhanchin",
       "quantity": 3,
-      "unit_price": 150.00
+      "unit_price": 0.01
     },
     {
       "title": "wasa",
       "quantity": 10,
-      "unit_price": 162.00
+      "unit_price": 0.01
     }
   ],
   "payer": {
