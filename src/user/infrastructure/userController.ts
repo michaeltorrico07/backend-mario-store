@@ -32,8 +32,10 @@ export class UserController {
   }
 
   updateUser = async (req: CustomRequest, res: Response): Promise<void> => {
-    const id = req?.user?.uid
+    const id = req?.user?.uid as string
+    console.log(`*******${id}*******`)
     const data = req.body
+    console.log(`*******${JSON.stringify(data)}*******`)
     try {
       const result = validUpdateUser(data)
       if (!result.success) {
@@ -42,7 +44,7 @@ export class UserController {
           .json({ error: 'Bad request', errors_messages: result.error.errors })
         return
       }
-      const response = await updateUserUseCase(result.data, id as string)
+      const response = await updateUserUseCase(result.data, id)
       if (!response.success) {
         res
           .status(500)
