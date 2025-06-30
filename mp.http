@@ -7,18 +7,28 @@ content-type: application/json
     {
       "title": "chinchenhanchin",
       "quantity": 3,
-      "unit_price": 0.01
+      "unit_price": 0.01,
+      "id": "awdawdawsdawsd"
     },
     {
       "title": "wasa",
       "quantity": 10,
-      "unit_price": 0.01
+      "unit_price": 0.01,
+      "id": "awsdawdawsd"
+    },
+    {
+      "title": "wwwwwwwwwwwwwwwwwww",
+      "quantity": 10,
+      "unit_price": 0.01,
+      "id": "awdawdawsd"
+  
     }
   ],
   "payer": {
     "name": "Balatro",
     "surname": "Balatrez",
-    "email": "balatrodelosbalatrez@gmail.com"
+    "email": "balatrodelosbalatrez@gmail.com",
+    "id": "asedfopakfpas"
   }
 }
 ###

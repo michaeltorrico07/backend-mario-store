@@ -13,7 +13,7 @@ export class PaymentWriteController {
       const result = await createPreferenceUseCase.execute({ body: (data as PreferenceRequest) })
       res
         .status(200)
-        .json({ init_point: result.data?.init_point })
+        .json({ success: result.success, data: result.data?.init_point, error: result.error })
     } catch (err) {
       console.log(err)
       res
