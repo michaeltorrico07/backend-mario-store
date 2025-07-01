@@ -1,5 +1,5 @@
 import { MercadoPagoConfig, Preference } from 'mercadopago'
-import { accessToken, secretKey, backendUrl } from '../../../infrastructure/config/envConfig'
+import { accessToken, secretKey, backendUrl, frontendUrl } from '../../../infrastructure/config/envConfig'
 import { IPaymentGateway } from '../../application/outbound/IPaymentGateway'
 import { PreferenceCreateData, PreferenceResponse, GetPaymentProps, VerifyMercadoPagoHmac, PaymentResponse } from '../../domain/payment'
 import crypto from 'crypto'
@@ -15,7 +15,11 @@ export class MercadoPagoService implements IPaymentGateway {
     const response = await preference.create({
       body: {
         ...data.body,
-        notification_url: `${backendUrl}/payment/webhook`
+        notification_url: `${backendUrl}/payment/webhook`,
+        back_urls: {
+          success: `${frontendUrl}/productos`
+        },
+        statement_descriptor: 'LA STORE DE MARIO'
       }
     })
     return response
