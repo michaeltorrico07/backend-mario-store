@@ -33,9 +33,7 @@ export class UserController {
 
   updateUser = async (req: CustomRequest, res: Response): Promise<void> => {
     const id = req?.user?.uid as string
-    console.log(`*******${id}*******`)
     const data = req.body
-    console.log(`*******${JSON.stringify(data)}*******`)
     try {
       const result = validUpdateUser(data)
       if (!result.success) {
