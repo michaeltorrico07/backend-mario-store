@@ -31,5 +31,3 @@ content-type: application/json
     "id": "asedfopakfpas"
   }
 }
-###
-POST http://localhost:3000/payment/webhook
