@@ -8,7 +8,7 @@ const itemSchema = z.object({
   description: z.string().optional(),
   picture_url: z.string().url().optional(),
   category_id: z.string().optional()
-})
+}).strict()
 
 const payerSchema = z.object({
   name: z.string().min(1, 'El nombre es requerido'),
