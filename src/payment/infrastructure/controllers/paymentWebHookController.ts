@@ -11,6 +11,7 @@ export class PaymentWebHookController {
     const xRequestId = req.headers['x-request-id'] as string
 
     console.log(req.body)
+    console.log(req.headers)
 
     switch (event) {
       case 'payment':
