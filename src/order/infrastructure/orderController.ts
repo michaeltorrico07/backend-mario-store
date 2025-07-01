@@ -1,7 +1,7 @@
 import { Request, Response } from 'express'
 import { validCreateOrder } from '../domain/orderScheme'
 import { CustomRequest } from '../../infrastructure/domain/auth'
-import { createOrderUseCase, cancelOrderUseCase, deliverOrderUseCase, getOrdersByUserUseCase, getOrderByIdUseCase, getNextOrdersUseCase } from '../application/inbound'
+import { createOrderUseCase, cancelOrderUseCase, deliverOrderUseCase, getOrdersByUserUseCase, getOrderByIdUseCase, getNextOrdersUseCase, getKitchenOrdersUseCase } from '../application/inbound'
 
 export class OrderController {
   createOrder = async (req: Request, res: Response): Promise<void> => {
@@ -128,6 +128,26 @@ export class OrderController {
       res
         .status(200)
         .json({ succes: response.success, data: response.data, error: response.error })
+    } catch (err) {
+      console.log(err)
+      res
+        .status(500)
+        .json({ error: 'Internal Server Error' })
+    }
+  }
+
+  getKitchenOrders = async (req: Request, res: Response): Promise<void> => {
+    try {
+      const response = await getKitchenOrdersUseCase()
+      if (!response.success) {
+        res
+          .status(500)
+          .json({ error: response.error })
+        return
+      }
+      res
+        .status(200)
+        .json({ success: response.success, data: response.data, error: response.error })
     } catch (err) {
       console.log(err)
       res

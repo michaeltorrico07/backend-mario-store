@@ -8,7 +8,7 @@ import { AuthMiddleware } from '../infrastructure/middlewares/AuthMiddleware'
 const router = Router()
 
 router.use('/product', productRouter)
-router.use('/order', AuthMiddleware, orderRouter)
+router.use('/order', orderRouter)
 router.use('/user', userRouter)
 router.use('/payment', paymentRouter)
 
