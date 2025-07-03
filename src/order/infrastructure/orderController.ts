@@ -1,11 +1,12 @@
 import { Request, Response } from 'express'
 import { validCreateOrder } from '../domain/orderScheme'
 import { CustomRequest } from '../../infrastructure/domain/auth'
-import { createOrderUseCase, cancelOrderUseCase, deliverOrderUseCase, getOrdersByUserUseCase, getOrderByIdUseCase, getNextOrdersUseCase, getKitchenOrdersUseCase } from '../application/inbound'
+import { createOrderUseCase, cancelOrderUseCase, deliverOrderUseCase, getOrdersByUserUseCase, getOrderByIdUseCase, getOrdersByHourUseCase, getKitchenOrdersUseCase } from '../application/inbound'
 
 export class OrderController {
   createOrder = async (req: Request, res: Response): Promise<void> => {
     const data = req.body
+    data.deliverDate = new Date(data.deliverDate)
     try {
       const result = validCreateOrder(data)
       if (!result.success) {
@@ -14,7 +15,7 @@ export class OrderController {
           .json({ error: 'Bad request', errors_messages: result.error.errors })
         return
       }
-      const response = await createOrderUseCase(result.data)
+      const response = await createOrderUseCase(result.data, 'jQkKwF3sO3cP0l2RTwq6xVcMptf1')
 
       if (!response.success) {
         res
@@ -116,9 +117,15 @@ export class OrderController {
     }
   }
 
-  getNextOrders = async (req: Request, res: Response): Promise<void> => {
+  getOrdersByHour = async (req: Request, res: Response): Promise<void> => {
+    const data = req.body
+    console.log('******************')
+    console.log(req.query)
+    console.log(req.params)
+    console.log(req.body)
+    console.log('******************')
     try {
-      const response = await getNextOrdersUseCase()
+      const response = await getOrdersByHourUseCase(data)
 
       if (!response.success) {
         res

@@ -4,26 +4,32 @@ export interface Order {
   deliverDate: Date
   delivered: boolean
   code: string
+  totalPrice: number
 }
 
 export interface OrderProduct {
+  name: string
+  amount: number
+  price: number
+}
+
+export interface CreateOrder {
+  listProducts: CreateOrderProduct[]
+  deliverDate: Date
+}
+
+export interface CreateOrderProduct {
   idProduct: string
   amount: number
 }
 
 export interface OrderTicket {
+  id: string
   code: string
-  listProducts: OrderTicketProduct[]
+  listProducts: OrderProduct[]
   deliverDate: Date
   delivered: boolean
   totalPrice: number
-}
-
-export interface OrderTicketProduct {
-  id: string
-  name: string
-  price: number
-  amount: number
 }
 
 export interface KitchenOrder {
@@ -35,8 +41,6 @@ export interface KitchenOrder {
   orderTime: string
 }
 
-export type CreateOrder = Omit<Order, 'delivered' | 'code'>
-
 export interface OrderUseCase {
   success: boolean
   data: OrderTicket | OrderTicket[] | KitchenOrder[] | Order | Order[] | boolean | null
@@ -44,11 +48,11 @@ export interface OrderUseCase {
 }
 
 export interface OrderRepository {
-  createOrder: (order: CreateOrder) => Promise<boolean>
+  createOrder: (order: CreateOrder, idUser: string) => Promise<boolean>
   deliverOrder: (idOrder: string) => Promise<boolean>
   cancelOrder: (idOrder: string) => Promise<boolean>
   getOrdersByUser: (idUser: string) => Promise<OrderTicket[]>
   getOrderById: (idOrder: string) => Promise<Order>
-  getNextOrders: () => Promise<OrderTicket[]>
+  getOrdersByHour: (hour: Date) => Promise<OrderTicket[]>
   getKitchenOrders: () => Promise<KitchenOrder[]>
 }
