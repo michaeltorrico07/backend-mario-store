@@ -1,20 +1,11 @@
-POST http://localhost:3000/order
+
+###
+GET http://localhost:3000/order
 content-type: application/json
 
 {
-  "idUser": "saas",
-  "listProducts": [
-    {
-      "idProduct": "sees",
-      "amount": 3,
-      "price": 100
-    }
-  ],
-  "deliverDate": "mañana anashei"
+  "date": "asdasd"
 }
-
-###
-GET http://localhost:3000/order/user
 
 ###
 PUT http://localhost:3000/order/oQGs4bOFk97kpN4TKpC
