@@ -8,7 +8,7 @@ export const cloudinaryUseCase = async (fileBuffer: Buffer): Promise<ProductUseC
     })
 
     if (result?.secure_url == null) {
-      throw new Error('Cloudinary upload failed: No URL received')
+      throw new Error('Hubo un error al subir la imagen a Cloudinary')
     }
 
     return { success: true, data: result.secure_url, error: null }
