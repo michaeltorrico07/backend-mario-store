@@ -63,6 +63,7 @@ export class OrderController {
         res
           .status(500)
           .json({ error: response.error })
+        return
       }
       res
         .status(200)
@@ -118,12 +119,8 @@ export class OrderController {
   }
 
   getOrdersByHour = async (req: Request, res: Response): Promise<void> => {
-    const data = req.body
-    console.log('******************')
-    console.log(req.query)
-    console.log(req.params)
-    console.log(req.body)
-    console.log('******************')
+    const { date } = req.query
+    const data = new Date(date as string)
     try {
       const response = await getOrdersByHourUseCase(data)
 
@@ -131,6 +128,7 @@ export class OrderController {
         res
           .status(500)
           .json({ error: response.error })
+        return
       }
       res
         .status(200)

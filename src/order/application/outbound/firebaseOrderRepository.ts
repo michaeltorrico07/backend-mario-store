@@ -1,5 +1,6 @@
 import { db } from '../../../infrastructure/db/firebase'
 import { OrderRepository, CreateOrder, Order, OrderTicket, KitchenOrder } from '../../domain/order'
+import { Timestamp } from 'firebase-admin/firestore'
 
 export class FirebaseOrderRespository implements OrderRepository {
   async createOrder (newOrder: CreateOrder, idUser: string): Promise<boolean> {
@@ -67,20 +68,25 @@ export class FirebaseOrderRespository implements OrderRepository {
   }
 
   async getOrdersByHour (hour: Date): Promise<OrderTicket[]> {
-    const hourTimestamp = FirebaseFirestore.Timestamp.fromDate(hour)
-    const snapshot = await db.collection('orders').where('deliverDate', '==', hourTimestamp).get()
-    const orderTickets: OrderTicket[] = await Promise.all(snapshot.docs.map(async doc => {
-      const orderData = doc.data()
-      const orderTicket: OrderTicket = {
-        id: doc.id,
-        code: orderData.code,
-        listProducts: orderData.listProducts,
-        deliverDate: orderData.deliverDate.toDate(),
-        delivered: orderData.delivered,
-        totalPrice: orderData.totalPrice
-      }
-      return orderTicket
-    }))
+    const hourTimestamp = Timestamp.fromDate(hour)
+    const endHour = Timestamp.fromDate(new Date(hour.getTime() + 10 * 60 * 1000))
+    const snapshot = await db.collection('orders').where('deliverDate', '>=', hourTimestamp).where('deliverDate', '<', endHour).get()
+    const orderTickets: OrderTicket[] = await Promise.all(
+      snapshot.docs.flatMap(doc => {
+        const orderData = doc.data()
+        const delivered = orderData.delivered as boolean
+        if (delivered) return []
+        const orderTicket: Promise<OrderTicket> = Promise.resolve({
+          id: doc.id,
+          code: orderData.code,
+          listProducts: orderData.listProducts,
+          deliverDate: orderData.deliverDate.toDate(),
+          delivered,
+          totalPrice: orderData.totalPrice
+        })
+        return [orderTicket]
+      })
+    )
     orderTickets.sort((a, b) => a.deliverDate.getTime() - b.deliverDate.getTime())
     return orderTickets
   }
