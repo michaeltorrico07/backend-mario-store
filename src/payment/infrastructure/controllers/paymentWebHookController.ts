@@ -48,6 +48,7 @@ export class PaymentWebHookController {
           const data = await mercadopagoService.getPaymentDetails({ paymentId: resource })
 
           console.log(JSON.stringify(data.additional_info?.items, null, 2))
+          console.log(data)
           console.log(data.additional_info?.payer)
           console.log(data.payer?.email)
 

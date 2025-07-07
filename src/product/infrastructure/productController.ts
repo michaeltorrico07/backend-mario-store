@@ -78,6 +78,7 @@ export class ProductController {
 
   getAllProducts = async (req: Request, res: Response): Promise<void> => {
     let { tags } = req.query
+    console.log(req.query)
     if (typeof (tags) === 'string') {
       tags = Array.of(tags)
     }
