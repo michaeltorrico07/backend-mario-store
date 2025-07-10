@@ -1,9 +1,9 @@
-import { UserUseCase, User } from '../../domain/user'
+import { UserUseCase, CreateUser } from '../../domain/user'
 import { FirebaseUserRepository } from '../outbound/firebaseUserRepository'
 
 const UserRepository = new FirebaseUserRepository()
 
-export const createUserUseCase = async (data: User): Promise<UserUseCase> => {
+export const createUserUseCase = async (data: CreateUser): Promise<UserUseCase> => {
   try {
     const user = await UserRepository.createUser(data)
 

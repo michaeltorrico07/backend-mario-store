@@ -1,12 +1,13 @@
 import { db } from '../../../infrastructure/db/firebase'
-import { UserRepository, User, UpdateUser } from '../../domain/user'
+import { UserRepository, User, CreateUser, UpdateUser } from '../../domain/user'
 
 export class FirebaseUserRepository implements UserRepository {
-  async createUser (user: User): Promise<User> {
+  async createUser (user: CreateUser): Promise<User> {
     const { id, ...userData } = user
     const userRef = db.collection('users').doc(id)
     await userRef.set({ ...userData, rol: 'USER' })
-    return user
+    const userCreated: User = { ...user, rol: 'USER' }
+    return userCreated
   }
 
   async getUser (id: string): Promise<User | null> {

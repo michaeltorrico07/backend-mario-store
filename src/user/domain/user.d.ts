@@ -7,6 +7,8 @@ export interface User {
   rol: 'ADMIN' | 'USER'
 }
 
+export type CreateUser = Omit<User, 'rol'>
+
 export type UpdateUser = Partial<Omit<User, 'id' | 'rol'>>
 
 export interface UserUseCase {
