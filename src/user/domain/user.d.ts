@@ -4,7 +4,7 @@ export interface User {
   lastName: string
   email: string
   dni: string
-  rol?: 'chef' | 'employee'
+  rol: 'ADMIN' | 'USER'
 }
 
 export type UpdateUser = Partial<Omit<User, 'id' | 'rol'>>

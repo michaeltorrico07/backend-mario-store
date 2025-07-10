@@ -5,7 +5,7 @@ export class FirebaseUserRepository implements UserRepository {
   async createUser (user: User): Promise<User> {
     const { id, ...userData } = user
     const userRef = db.collection('users').doc(id)
-    await userRef.set(userData)
+    await userRef.set({ ...userData, rol: 'USER' })
     return user
   }
 
