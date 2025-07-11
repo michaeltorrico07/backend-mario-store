@@ -29,5 +29,6 @@ content-type: application/json
     "surname": "Balatrez",
     "email": "balatrodelosbalatrez@gmail.com",
     "id": "asedfopakfpas"
-  }
+  },
+  "additional_info": "unafecha"
 }

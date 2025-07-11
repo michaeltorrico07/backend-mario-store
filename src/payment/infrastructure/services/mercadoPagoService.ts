@@ -17,7 +17,7 @@ export class MercadoPagoService implements IPaymentGateway {
         ...data.body,
         notification_url: `${backendUrl}/payment/webhook`,
         back_urls: {
-          success: `${frontendUrl}/productos`
+          success: `${frontendUrl}`
         },
         statement_descriptor: 'LA STORE DE MARIO'
       }

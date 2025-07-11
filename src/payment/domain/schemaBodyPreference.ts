@@ -18,7 +18,8 @@ const payerSchema = z.object({
 
 const preferenceBodySchema = z.object({
   items: z.array(itemSchema).min(1, 'Debe haber al menos un ítem'),
-  payer: payerSchema
+  payer: payerSchema,
+  additional_info: z.string()
 }).strict()
 
 export function validatePreferenceBody (input: unknown): z.SafeParseReturnType<unknown, z.infer<typeof preferenceBodySchema>> {
