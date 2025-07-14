@@ -1,5 +1,5 @@
 import { db } from '../../../infrastructure/db/firebase'
-import { OrderRepository, CreateOrder, Order, OrderTicket, KitchenOrder } from '../../domain/order'
+import { OrderRepository, CreateOrder, Order, OrderTicket, KitchenProduct } from '../../domain/order'
 import { Timestamp } from 'firebase-admin/firestore'
 
 export class FirebaseOrderRespository implements OrderRepository {
@@ -91,37 +91,26 @@ export class FirebaseOrderRespository implements OrderRepository {
     return orderTickets
   }
 
-  async getKitchenOrders (): Promise<KitchenOrder[]> {
-    const snapshot = await db.collection('orders').get()
-    const kitchenOrders: KitchenOrder[] = []
-
-    for (const doc of snapshot.docs) {
-      const order = doc.data() as {
-        code: string
-        listProducts: Array<{ name: string, amount: number, price: number }>
-        deliverDate: Date | FirebaseFirestore.Timestamp
-        delivered: boolean
-        totalPrice: number
-      }
-
-      for (const [index, productRef] of order.listProducts.entries()) {
-        const deliveryDate = order.deliverDate instanceof Date
-          ? order.deliverDate
-          : order.deliverDate.toDate()
-
-        const kitchenOrder: KitchenOrder = {
-          id: `${order.code}-${index}`,
-          quantity: productRef.amount,
-          product: productRef.name,
-          deliveryTime: deliveryDate,
-          status: order.delivered ? 'total_confirmed' : 'pending',
-          orderTime: new Date().toISOString() // O order.createdAt si lo tenés
+  async getKitchenProducts (hour: Date): Promise<KitchenProduct[]> {
+    const hourTimestamp = Timestamp.fromDate(hour)
+    const endHour = Timestamp.fromDate(new Date(hour.getTime() + 10 * 60 * 1000))
+    const snapshot = await db.collection('orders').where('deliverDate', '>=', hourTimestamp).where('deliverDate', '<', endHour).get()
+    const ordersData = snapshot.docs.map(doc => doc.data()) as Order[]
+    const kitchenProducts: KitchenProduct[] = []
+    ordersData.forEach(order => {
+      order.listProducts.forEach(product => {
+        const existingProduct = kitchenProducts.find(kp => kp.name === product.name)
+        if (existingProduct != null) {
+          existingProduct.amount += product.amount
+        } else {
+          kitchenProducts.push({
+            name: product.name,
+            amount: product.amount,
+            amountConfirmed: 0
+          })
         }
-
-        kitchenOrders.push(kitchenOrder)
-      }
-    }
-
-    return kitchenOrders
+      })
+    })
+    return kitchenProducts
   }
 }

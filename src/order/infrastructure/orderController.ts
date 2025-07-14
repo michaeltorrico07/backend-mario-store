@@ -1,7 +1,7 @@
 import { Request, Response } from 'express'
 import { validCreateOrder } from '../domain/orderScheme'
 import { CustomRequest } from '../../infrastructure/domain/auth'
-import { createOrderUseCase, cancelOrderUseCase, deliverOrderUseCase, getOrdersByUserUseCase, getOrderByIdUseCase, getOrdersByHourUseCase, getKitchenOrdersUseCase } from '../application/inbound'
+import { createOrderUseCase, cancelOrderUseCase, deliverOrderUseCase, getOrdersByUserUseCase, getOrderByIdUseCase, getOrdersByHourUseCase, getKitchenProductsUseCase } from '../application/inbound'
 
 export class OrderController {
   createOrder = async (req: Request, res: Response): Promise<void> => {
@@ -141,9 +141,11 @@ export class OrderController {
     }
   }
 
-  getKitchenOrders = async (req: Request, res: Response): Promise<void> => {
+  getKitchenProducts = async (req: Request, res: Response): Promise<void> => {
+    const { date } = req.query
+    const data = new Date(date as string)
     try {
-      const response = await getKitchenOrdersUseCase()
+      const response = await getKitchenProductsUseCase(data)
       if (!response.success) {
         res
           .status(500)
