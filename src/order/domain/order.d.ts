@@ -32,13 +32,10 @@ export interface OrderTicket {
   totalPrice: number
 }
 
-export interface KitchenOrder {
-  id: string
-  quantity: number
-  product: string
-  deliveryTime: Date
-  status: 'pending' | 'unit_confirmed' | 'total_confirmed'
-  orderTime: string
+export interface KitchenProduct {
+  name: string
+  amount: number
+  amountConfirmed: number
 }
 
 export interface OrderUseCase {
@@ -54,5 +51,5 @@ export interface OrderRepository {
   getOrdersByUser: (idUser: string) => Promise<OrderTicket[]>
   getOrderById: (idOrder: string) => Promise<Order>
   getOrdersByHour: (hour: Date) => Promise<OrderTicket[]>
-  getKitchenOrders: () => Promise<KitchenOrder[]>
+  getKitchenProducts: (data: Date) => Promise<KitchenProduct[]>
 }
