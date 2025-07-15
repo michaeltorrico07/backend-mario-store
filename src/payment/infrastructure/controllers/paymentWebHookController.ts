@@ -13,7 +13,7 @@ export class PaymentWebHookController {
     const xSignature = req.headers['x-signature'] as string
     const xRequestId = req.headers['x-request-id'] as string
 
-    console.log(req.body)
+    // console.log(req.body)
 
     switch (event) {
       case 'payment':
@@ -28,8 +28,8 @@ export class PaymentWebHookController {
               } else {
                 console.log('passnt')
               }
-
-              break
+              res.status(200)
+              return
             }
             default:{
               console.log(action)
@@ -49,8 +49,8 @@ export class PaymentWebHookController {
 
           const data = await mercadopagoService.getPaymentDetails({ paymentId: resource })
 
-          console.log('data:', data, null, 2)
-          console.log(data.additional_info?.items, null, 2)
+          // console.log('data:', data, null, 2)
+          // console.log(data.additional_info?.items, null, 2)
           const listProducts = data.additional_info?.items?.map((item: any) => ({
             idProduct: item.id,
             amount: Number(item.quantity),
@@ -62,7 +62,7 @@ export class PaymentWebHookController {
             deliverDate,
             id: data.external_reference
           }
-          console.log('data de usecase', orderPayload, data.metadata.id_user)
+          // console.log('data de usecase', orderPayload, data.metadata.id_user)
           const result = validCreateOrder(orderPayload)
           if (!result.success) {
             console.log('errores de schema:', result.error.errors)
@@ -85,11 +85,13 @@ export class PaymentWebHookController {
         break
       case 'merchant_order': {
         console.log('recibido la merchant')
-        break
+        res.status(200)
+        return
       }
       default:{
         console.log('wdkjawifawsfhasgfhaws')
-        break
+        res.status(200)
+        return
       }
     }
     res.status(200)
