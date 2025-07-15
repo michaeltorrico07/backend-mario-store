@@ -86,6 +86,11 @@ const createOrderSchema = z.object({
     .date({
       invalid_type_error: 'deliverDate must be date',
       required_error: 'deliverDate is required'
+    }),
+  id: z
+    .string({
+      invalid_type_error: 'idProduct must be string',
+      required_error: 'idProduct is required'
     })
 })
 

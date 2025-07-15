@@ -6,6 +6,7 @@ export class FirebaseOrderRespository implements OrderRepository {
   async createOrder (newOrder: CreateOrder, idUser: string): Promise<boolean> {
     const code: string = Math.random().toString(36).substring(2, 7).toUpperCase()
     const order: Order = {
+      id: newOrder.id,
       deliverDate: newOrder.deliverDate,
       listProducts: [],
       idUser,

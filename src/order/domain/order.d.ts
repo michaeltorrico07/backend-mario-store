@@ -1,4 +1,5 @@
 export interface Order {
+  id: string
   idUser: string
   listProducts: OrderProduct[]
   deliverDate: Date
@@ -16,6 +17,7 @@ export interface OrderProduct {
 export interface CreateOrder {
   listProducts: CreateOrderProduct[]
   deliverDate: Date
+  id: string
 }
 
 export interface CreateOrderProduct {

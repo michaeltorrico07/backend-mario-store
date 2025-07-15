@@ -58,7 +58,8 @@ export class PaymentWebHookController {
           const deliverDate = new Date(data.metadata.date)
           const orderPayload = {
             listProducts,
-            deliverDate
+            deliverDate,
+            id: data.external_reference
           }
           console.log('data de usecase', orderPayload, data.metadata.id_user)
           const result = validCreateOrder(orderPayload)
@@ -71,6 +72,8 @@ export class PaymentWebHookController {
             console.log('guardar en la db la order')
             const response = await createOrderUseCase(result.data, data.metadata.id_user)
             console.log(response)
+            res.status(200)
+            return
           }
         }
         break
