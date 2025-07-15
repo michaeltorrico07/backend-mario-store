@@ -48,7 +48,7 @@ export class PaymentWebHookController {
 
           const data = await mercadopagoService.getPaymentDetails({ paymentId: resource })
 
-          console.log(data, null, 2)
+          console.log('data:', data, null, 2)
 
           const listProducts = data.additional_info?.items?.map((item: any) => ({
             idProduct: item.id,
@@ -59,10 +59,10 @@ export class PaymentWebHookController {
             listProducts,
             deliverDate
           }
-          console.log(orderPayload, data.metadata.id_user)
+          console.log('data de usecase', orderPayload, data.metadata.id_user)
           const result = validCreateOrder(orderPayload)
           if (!result.success) {
-            console.log(result.error.errors)
+            console.log('errores de schema:', result.error.errors)
             res.status(400)
             return
           }
