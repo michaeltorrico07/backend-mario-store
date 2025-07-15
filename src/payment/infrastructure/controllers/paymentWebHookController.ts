@@ -49,10 +49,11 @@ export class PaymentWebHookController {
           const data = await mercadopagoService.getPaymentDetails({ paymentId: resource })
 
           console.log('data:', data, null, 2)
-
+          console.log(data.additional_info?.items, null, 2)
           const listProducts = data.additional_info?.items?.map((item: any) => ({
             idProduct: item.id,
-            amount: item.quantity
+            amount: Number(item.quantity),
+            price: Number(item.unit_price)
           }))
           const deliverDate = new Date(data.metadata.date)
           const orderPayload = {
