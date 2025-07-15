@@ -21,6 +21,7 @@ export interface CreateOrder {
 export interface CreateOrderProduct {
   idProduct: string
   amount: number
+  price: number
 }
 
 export interface OrderTicket {

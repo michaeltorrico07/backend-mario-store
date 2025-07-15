@@ -72,7 +72,14 @@ const createOrderSchema = z.object({
             required_error: 'amount is required'
           })
           .nonnegative('amount cannot be negative')
-          .int('amount must be integer')
+          .int('amount must be integer'),
+        price: z
+          .number({
+            invalid_type_error: 'price must be number',
+            required_error: 'price is required'
+          })
+          .nonnegative('price cannot be negative')
+          .int('price must be integer')
       })
     ),
   deliverDate: z

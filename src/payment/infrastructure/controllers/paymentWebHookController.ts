@@ -1,5 +1,7 @@
 import { Response, Request } from 'express'
 import { MercadoPagoService } from '../services/mercadoPagoService'
+import { validCreateOrder } from '../../../order/domain/orderScheme'
+import { createOrderUseCase } from '../../../order/application/inbound'
 
 const mercadopagoService = new MercadoPagoService()
 
@@ -46,12 +48,30 @@ export class PaymentWebHookController {
 
           const data = await mercadopagoService.getPaymentDetails({ paymentId: resource })
 
-          console.log(JSON.stringify(data.additional_info?.items, null, 2))
           console.log(data, null, 2)
-          console.log(data.additional_info?.payer, null, 2)
-          console.log(data.payer, null, 2)
 
-          if (data?.status === 'approved' && data.status_detail === 'accredited') console.log('guardar en la db la order')
+          const listProducts = data.additional_info?.items?.map((item: any) => ({
+            idProduct: item.id,
+            amount: item.quantity
+          }))
+          const deliverDate = data.metadata.date
+
+          const orderPayload = {
+            listProducts,
+            deliverDate
+          }
+          console.log(orderPayload, data.metadata.id_user)
+          const result = validCreateOrder(orderPayload)
+          if (!result.success) {
+            console.log(result.error.errors)
+            res.status(400)
+            return
+          }
+          if (data?.status === 'approved' && data.status_detail === 'accredited') {
+            console.log('guardar en la db la order')
+            const response = await createOrderUseCase(result.data, data.metadata.id_user)
+            console.log(response)
+          }
         }
         break
       case 'merchant_order': {
