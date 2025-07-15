@@ -2,6 +2,7 @@ import { Response, Request } from 'express'
 import { MercadoPagoService } from '../services/mercadoPagoService'
 import { validCreateOrder } from '../../../order/domain/orderScheme'
 import { createOrderUseCase } from '../../../order/application/inbound'
+import { getOrderByIdPostaUseCase } from '../../../order/application/inbound/getOrderByIdPostaUseCase'
 
 const mercadopagoService = new MercadoPagoService()
 
@@ -68,11 +69,16 @@ export class PaymentWebHookController {
             res.status(400)
             return
           }
+          const respon = await getOrderByIdPostaUseCase(result.data.id)
+
+          if (respon.data !== null) {
+            res.status(200).json({ message: 'ya se guardo la order' })
+          }
+
           if (data?.status === 'approved' && data.status_detail === 'accredited') {
-            console.log('guardar en la db la order')
-            const response = await createOrderUseCase(result.data, data.metadata.id_user)
-            console.log(response)
-            res.status(200)
+            const resp = await createOrderUseCase(result.data, data.metadata.id_user)
+            console.log(resp)
+            res.status(200).json({ message: 'guardao en la db' })
             return
           }
         }

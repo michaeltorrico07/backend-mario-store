@@ -68,6 +68,19 @@ export class FirebaseOrderRespository implements OrderRepository {
     return order
   }
 
+  async getOrderByIdPosta (idOrder: string): Promise<Order | null> {
+    const snapshot = await db.collection('orders').where('id', '==', idOrder).limit(1).get()
+
+    if (snapshot.empty) {
+      return null
+    }
+
+    const doc = snapshot.docs[0]
+    const order = doc.data() as Order
+
+    return order
+  }
+
   async getOrdersByHour (hour: Date): Promise<OrderTicket[]> {
     const hourTimestamp = Timestamp.fromDate(hour)
     const endHour = Timestamp.fromDate(new Date(hour.getTime() + 10 * 60 * 1000))
