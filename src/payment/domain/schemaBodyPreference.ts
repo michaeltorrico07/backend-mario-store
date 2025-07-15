@@ -16,12 +16,15 @@ const payerSchema = z.object({
   email: z.string().email('El email debe ser válido')
 })
 
+const metadataSchema = z.object({
+  date: z.string().min(1, 'La fecha es requerida'),
+  idUser: z.string()
+})
+
 const preferenceBodySchema = z.object({
   items: z.array(itemSchema).min(1, 'Debe haber al menos un ítem'),
   payer: payerSchema,
-  additional_info: z.object({
-    date: z.string()
-  })
+  metadata: metadataSchema
 }).strict()
 
 export function validatePreferenceBody (input: unknown): z.SafeParseReturnType<unknown, z.infer<typeof preferenceBodySchema>> {

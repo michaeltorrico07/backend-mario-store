@@ -34,7 +34,6 @@ export class MercadoPagoService implements IPaymentGateway {
         'Content-Type': 'application/json'
       }
     })
-    console.log(response)
     return await response.json()
   }
 
