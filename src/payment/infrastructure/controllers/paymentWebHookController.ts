@@ -54,8 +54,7 @@ export class PaymentWebHookController {
             idProduct: item.id,
             amount: item.quantity
           }))
-          const deliverDate = data.metadata.date
-
+          const deliverDate = new Date(data.metadata.date)
           const orderPayload = {
             listProducts,
             deliverDate
