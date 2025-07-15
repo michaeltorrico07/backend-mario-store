@@ -11,7 +11,6 @@ export class PaymentWebHookController {
     const xRequestId = req.headers['x-request-id'] as string
 
     console.log(req.body)
-    console.log(req.headers)
 
     switch (event) {
       case 'payment':
@@ -48,9 +47,9 @@ export class PaymentWebHookController {
           const data = await mercadopagoService.getPaymentDetails({ paymentId: resource })
 
           console.log(JSON.stringify(data.additional_info?.items, null, 2))
-          console.log(data)
-          console.log(data.additional_info?.payer)
-          console.log(data.payer?.email)
+          console.log(data, null, 2)
+          console.log(data.additional_info?.payer, null, 2)
+          console.log(data.payer, null, 2)
 
           if (data?.status === 'approved' && data.status_detail === 'accredited') console.log('guardar en la db la order')
         }
