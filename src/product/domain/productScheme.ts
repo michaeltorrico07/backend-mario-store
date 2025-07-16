@@ -16,19 +16,14 @@ const productSchema = z.object({
     })
     .max(200, 'description is too long (max 200 characters)'),
 
-  tags: z
-    .array(
-      z.string()
-    )
-    .min(1, 'at least one tag is required'),
+  category: z
+    .enum(['Comida', 'Bebida', 'Snack']),
 
   image: z
     .string({
-      invalid_type_error: 'image_path must be string',
-      required_error: 'image_path is required'
-    })
-    .nonempty('image_path cannot be empty')
-    .url('image_path must be a valid URL'),
+      invalid_type_error: 'image must be string',
+      required_error: 'image is required'
+    }),
 
   price: z
     .number({

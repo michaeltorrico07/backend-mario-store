@@ -7,11 +7,7 @@ export class FireBaseProductRepository implements ProductRepository {
 
     const productProcessed = {
       id: idProduct,
-      name: newProduct.name,
-      tags: newProduct.tags,
-      description: newProduct.description,
-      image: newProduct.image,
-      price: newProduct.price
+      ...newProduct
     }
 
     return productProcessed

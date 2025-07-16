@@ -1,11 +1,18 @@
 import { Request, Response } from 'express'
 import { validNewProduct, validPartialProduct } from '../domain/productScheme'
-import { createProductUseCase, getAllProductsUseCase, getProductByIdUseCase, updateProductUseCase } from '../application/inbound'
+import { createProductUseCase, getAllProductsUseCase, getProductByIdUseCase, updateProductUseCase, cloudinaryUseCase } from '../application/inbound'
 
 export class ProductController {
   createProduct = async (req: Request, res: Response): Promise<void> => {
+    console.log('asdadefc')
+    console.log(req.body)
+    console.log(req.file)
     const data = req.body
+    const image = req.file?.buffer
     try {
+      if (!(image instanceof Buffer)) throw new Error('Wrong File Type')
+      const imageUrl = (await cloudinaryUseCase(image)).data as string
+      data.image = imageUrl
       const result = validNewProduct(data)
       if (!result.success) {
         res
@@ -84,6 +91,28 @@ export class ProductController {
     }
     try {
       const response = await getAllProductsUseCase(tags as string[])
+      res
+        .status(200)
+        .json({ success: response.success, data: response.data, error: response.error })
+    } catch (err) {
+      console.log(err)
+      res
+        .status(500)
+        .json({ error: 'Internal Server Error' })
+    }
+  }
+
+  uploadImage = async (req: Request, res: Response): Promise<void> => {
+    const image = req.file?.buffer
+    try {
+      if (!(image instanceof Buffer)) throw new Error('Wrong File Type')
+      const response = await cloudinaryUseCase(image)
+      if (!response.success) {
+        res
+          .status(500)
+          .json({ error: response.error })
+        return
+      }
       res
         .status(200)
         .json({ success: response.success, data: response.data, error: response.error })
