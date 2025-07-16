@@ -1,7 +1,7 @@
 export interface Product {
   id: string
   name: string
-  tags: string[]
+  category: 'Comida' | 'Bebida' | 'Snack'
   description: string
   image: string
   price: number
@@ -13,7 +13,7 @@ export type UpdateProduct = Partial<Omit<Product, 'id'>>
 
 export interface ProductUseCase {
   success: boolean
-  data: Product | null | Product[]
+  data: Product | null | Product[] | string
   error: string | null
 }
 
