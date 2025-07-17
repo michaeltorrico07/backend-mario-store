@@ -3,7 +3,6 @@ import { cloudinary } from '../../../infrastructure/config/cloudinaryConfig'
 
 export const cloudinaryUseCase = async (fileBuffer: Buffer): Promise<ProductUseCase> => {
   try {
-    console.log(cloudinary.uploader)
     const result = await cloudinary.uploader.upload(`data:image/png;base64,${fileBuffer.toString('base64')}`, {
       folder: 'product_management'
     })

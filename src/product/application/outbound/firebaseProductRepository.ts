@@ -28,18 +28,27 @@ export class FireBaseProductRepository implements ProductRepository {
   }
 
   async updateProduct (setData: UpdateProduct, id: string): Promise<Product | null> {
-    const snapshot = await db
-      .collection('products')
-      .doc(id)
-      .get()
+    const snapshot = await db.collection('products').doc(id).get()
     if (!snapshot.exists) return null
 
-    await snapshot.ref.update(setData)
-
-    const updatedProduct: Product = {
-      ...snapshot.data() as unknown as Product,
+    // Armamos un nuevo objeto de actualización sin campos vacíos
+    const updatePayload: Partial<UpdateProduct> = {
       ...setData
     }
+
+    // Si no hay una nueva imagen, eliminamos ese campo para no sobreescribir
+    if (setData.image === null || setData.image === undefined || setData.image === '') {
+      delete updatePayload.image
+    }
+
+    // Ejecutamos la actualización
+    await snapshot.ref.update(updatePayload)
+
+    const updatedProduct: Product = {
+      ...snapshot.data() as Product,
+      ...updatePayload
+    }
+
     return updatedProduct
   }
 

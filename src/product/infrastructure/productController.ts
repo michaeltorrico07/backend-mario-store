@@ -4,10 +4,7 @@ import { createProductUseCase, getAllProductsUseCase, getProductByIdUseCase, upd
 
 export class ProductController {
   createProduct = async (req: Request, res: Response): Promise<void> => {
-    console.log('asdadefc')
-    console.log(req.body)
-    console.log(req.file)
-    const data = req.body
+    const data = JSON.parse(req.body.productData)
     const image = req.file?.buffer
     try {
       if (!(image instanceof Buffer)) throw new Error('Wrong File Type')
@@ -59,12 +56,15 @@ export class ProductController {
 
   updateProduct = async (req: Request, res: Response): Promise<void> => {
     const { id } = req.params
-    const data = req.body
-    console.log(req.body)
-    console.log(id, data)
+    const data = JSON.parse(req.body.productData)
+    const image = req?.file?.buffer
     try {
+      let imageUrl = ''
+      if (image instanceof Buffer) {
+        imageUrl = (await cloudinaryUseCase(image)).data as string
+      }
+      data.image = imageUrl
       const result = validPartialProduct(data)
-
       if (!result.success) {
         res
           .status(400)
@@ -85,7 +85,6 @@ export class ProductController {
 
   getAllProducts = async (req: Request, res: Response): Promise<void> => {
     let { tags } = req.query
-    console.log(req.query)
     if (typeof (tags) === 'string') {
       tags = Array.of(tags)
     }
@@ -107,7 +106,7 @@ export class ProductController {
     try {
       if (!(image instanceof Buffer)) throw new Error('Wrong File Type')
       const response = await cloudinaryUseCase(image)
-      if (!response.success) {
+      if (response.success === false) {
         res
           .status(500)
           .json({ error: response.error })
