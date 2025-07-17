@@ -9,7 +9,7 @@ const controller = new ProductController()
 router.post('/image', upload.single('image'), controller.uploadImage)
 router.get('/:id', controller.getProductById)
 router.post('/', upload.single('image'), controller.createProduct)
-router.put('/:id', AuthMiddleware, controller.updateProduct)
+router.put('/:id', AuthMiddleware, upload.single('image'), controller.updateProduct)
 router.get('/', controller.getAllProducts)
 
 export default router
