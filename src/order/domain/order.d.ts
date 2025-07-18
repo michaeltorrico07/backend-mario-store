@@ -21,6 +21,7 @@ export interface CreateOrder {
 }
 
 export interface CreateOrderProduct {
+  quantity: number
   idProduct: string
   amount: number
   price: number

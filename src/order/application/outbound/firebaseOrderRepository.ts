@@ -5,6 +5,11 @@ import { Timestamp } from 'firebase-admin/firestore'
 export class FirebaseOrderRespository implements OrderRepository {
   async createOrder (newOrder: CreateOrder, idUser: string): Promise<boolean> {
     const code: string = Math.random().toString(36).substring(2, 7).toUpperCase()
+
+    const totalPrice = newOrder.listProducts.reduce((acc, product) => {
+      return acc + product.price * product.quantity
+    }, 0)
+
     const order: Order = {
       id: newOrder.id,
       deliverDate: newOrder.deliverDate,
@@ -12,7 +17,7 @@ export class FirebaseOrderRespository implements OrderRepository {
       idUser,
       delivered: false,
       code,
-      totalPrice: 0
+      totalPrice
     }
 
     await Promise.all(newOrder.listProducts.map(async product => {
