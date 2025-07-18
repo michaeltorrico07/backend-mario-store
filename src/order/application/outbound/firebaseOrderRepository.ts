@@ -7,7 +7,7 @@ export class FirebaseOrderRespository implements OrderRepository {
     const code: string = Math.random().toString(36).substring(2, 7).toUpperCase()
 
     const totalPrice = newOrder.listProducts.reduce((acc, product) => {
-      return acc + product.price * product.quantity
+      return acc + product.price * product.amount
     }, 0)
 
     const order: Order = {
