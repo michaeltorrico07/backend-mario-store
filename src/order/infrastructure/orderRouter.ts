@@ -5,7 +5,6 @@ import { AuthMiddleware } from '../../infrastructure/middlewares/AuthMiddleware'
 const router = Router()
 const controller = new OrderController()
 
-router.post('/', controller.createOrder)
 router.delete('/:id', controller.cancelOrder)
 router.put('/:id', controller.deliverOrder)
 router.get('/', controller.getOrdersByHour)
