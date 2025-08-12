@@ -31,7 +31,10 @@ const productSchema = z.object({
       required_error: 'price is required'
     })
     .nonnegative('price cannot be negative')
-    .int('price must be integer')
+    .int('price must be integer'),
+
+  inMenu: z
+    .boolean()
 })
 
 const createProductSchema = productSchema

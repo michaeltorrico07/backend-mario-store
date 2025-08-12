@@ -5,6 +5,7 @@ export interface Product {
   description: string
   image: string
   price: number
+  inMenu: boolean
 }
 
 export type NewProduct = Omit<Product, 'id'>

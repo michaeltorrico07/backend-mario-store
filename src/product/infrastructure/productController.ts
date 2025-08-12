@@ -106,7 +106,7 @@ export class ProductController {
     try {
       if (!(image instanceof Buffer)) throw new Error('Wrong File Type')
       const response = await cloudinaryUseCase(image)
-      if (response.success === false) {
+      if (!response.success) {
         res
           .status(500)
           .json({ error: response.error })
