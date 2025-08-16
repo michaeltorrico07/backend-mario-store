@@ -37,3 +37,5 @@ content-type: application/json
 {
   "name": "BALATREZ BALATRIN"
 }
+###
+GET http://localhost:3000/product/bulk?ids=MEd0DwVdw9R3SiZXWM8X,MueMpEZoek0l361rZ0ZV HTTP/1.1

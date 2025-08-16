@@ -1,3 +1,4 @@
+import { FieldPath } from 'firebase-admin/firestore'
 import { db } from '../../../infrastructure/db/firebase'
 import { Product, ProductRepository, UpdateProduct, NewProduct } from '../../domain/product'
 
@@ -53,11 +54,7 @@ export class FireBaseProductRepository implements ProductRepository {
   }
 
   async getAllProducts (tags?: string[]): Promise<Product[]> {
-    let query: FirebaseFirestore.Query = db.collection('products')
-
-    if (tags !== undefined && tags.length > 0) {
-      query = query.where('tags', 'array-contains-any', tags)
-    }
+    const query: FirebaseFirestore.Query = db.collection('products')
 
     const snapshot = await query.get()
 
@@ -66,5 +63,19 @@ export class FireBaseProductRepository implements ProductRepository {
       ...doc.data()
     } as unknown as Product))
     return allProducts
+  }
+
+  async getProductsByIds (ids: String[]): Promise<Product[]> {
+    const docs = await db
+      .collection('products')
+      .where(FieldPath.documentId(), 'in', ids)
+      .get()
+
+    const someProducts: Product[] = docs.docs.map(doc => ({
+      id: doc.id,
+      ...doc.data()
+    } as unknown as Product))
+
+    return someProducts
   }
 }

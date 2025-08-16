@@ -62,7 +62,7 @@ export class PaymentWebHookController {
             deliverDate,
             id: data.external_reference
           }
-          // console.log('data de usecase', orderPayload, data.metadata.id_user)
+          console.log('data de usecase', orderPayload, data.metadata.id_user)
           const result = validCreateOrder(orderPayload)
           if (!result.success) {
             console.log('errores de schema:', result.error.errors)

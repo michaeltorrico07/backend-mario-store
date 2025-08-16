@@ -1,6 +1,6 @@
 import { Request, Response } from 'express'
 import { validNewProduct, validPartialProduct } from '../domain/productScheme'
-import { createProductUseCase, getAllProductsUseCase, getProductByIdUseCase, updateProductUseCase, cloudinaryUseCase } from '../application/inbound'
+import { createProductUseCase, getAllProductsUseCase, getProductByIdUseCase, updateProductUseCase, cloudinaryUseCase, getProductsByIdsUseCase } from '../application/inbound'
 
 export class ProductController {
   createProduct = async (req: Request, res: Response): Promise<void> => {
@@ -38,6 +38,39 @@ export class ProductController {
     const { id } = req.params
     try {
       const response = await getProductByIdUseCase(id)
+      if (!response.success) {
+        res
+          .status(404)
+          .json({ success: response.success, data: response.data, error: response.error })
+      }
+      res
+        .status(200)
+        .json({ success: response.success, data: response.data, error: response.error })
+    } catch (err) {
+      console.log(err)
+      res
+        .status(500)
+        .json({ error: 'Internal Server Error' })
+    }
+  }
+
+  getProductsByIds = async (req: Request, res: Response): Promise<void> => {
+    const idsQuery = req.query.ids as string | undefined
+    let ids: string[] = []
+
+    if (typeof idsQuery === 'string' && idsQuery.trim() !== '') {
+      ids = idsQuery.split(',').map(id => id.trim()).filter(id => id.length > 0)
+    }
+    if (ids.length === 0) {
+      res.status(400).json({ success: false, data: null, error: 'No IDs provided' })
+      return
+    }
+    if (ids.length > 10) {
+      res.status(400).json({ success: false, data: null, error: 'filter supports maximum of 10 elements' })
+      return
+    }
+    try {
+      const response = await getProductsByIdsUseCase(ids)
       if (!response.success) {
         res
           .status(404)
