@@ -3,7 +3,6 @@ export interface User {
   name: string
   lastName: string
   email: string
-  dni: string
   rol: 'ADMIN' | 'USER'
 }
 

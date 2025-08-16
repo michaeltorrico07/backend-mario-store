@@ -25,13 +25,7 @@ const userSchema = z.object({
       required_error: 'email is required'
     })
     .nonempty('email cannot be empty')
-    .email('email must be a valid email address'),
-  dni: z
-    .string({
-      invalid_type_error: 'dni must be string',
-      required_error: 'dni is required'
-    })
-    .nonempty('dni cannot be empty')
+    .email('email must be a valid email address')
 })
 
 const updateUserSchema = userSchema.omit({ id: true }).partial()
