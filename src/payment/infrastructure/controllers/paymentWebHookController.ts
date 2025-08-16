@@ -54,7 +54,8 @@ export class PaymentWebHookController {
           const listProducts = data.additional_info?.items?.map((item: any) => ({
             idProduct: item.id,
             amount: Number(item.quantity),
-            price: Number(item.unit_price)
+            price: Number(item.unit_price),
+            name: item.title
           }))
           const deliverDate = new Date(data.metadata.date)
           const orderPayload = {

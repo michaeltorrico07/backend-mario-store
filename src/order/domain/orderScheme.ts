@@ -61,6 +61,11 @@ const createOrderSchema = z.object({
   listProducts: z
     .array(
       z.object({
+        name: z
+          .string({
+            invalid_type_error: 'idProduct must be string',
+            required_error: 'idProduct is required'
+          }),
         idProduct: z
           .string({
             invalid_type_error: 'idProduct must be string',

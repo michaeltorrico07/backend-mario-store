@@ -13,24 +13,12 @@ export class FirebaseOrderRespository implements OrderRepository {
     const order: Order = {
       id: newOrder.id,
       deliverDate: newOrder.deliverDate,
-      listProducts: [],
+      listProducts: newOrder.listProducts,
       idUser,
       delivered: false,
       code,
       totalPrice
     }
-
-    await Promise.all(newOrder.listProducts.map(async product => {
-      const productSnapshot = await db.collection('products').doc(product.idProduct).get()
-      const productData = productSnapshot.data()
-      const listProduct = {
-        name: productData?.name,
-        amount: product.amount,
-        price: productData?.price
-      }
-
-      order.listProducts.push(listProduct)
-    }))
 
     await db.collection('orders').add(order)
 

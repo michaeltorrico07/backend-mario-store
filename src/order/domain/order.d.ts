@@ -9,6 +9,7 @@ export interface Order {
 }
 
 export interface OrderProduct {
+  idProduct: string
   name: string
   amount: number
   price: number
@@ -22,6 +23,7 @@ export interface CreateOrder {
 
 export interface CreateOrderProduct {
   idProduct: string
+  name: string
   amount: number
   price: number
 }
