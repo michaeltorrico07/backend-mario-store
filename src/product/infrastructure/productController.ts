@@ -121,8 +121,10 @@ export class ProductController {
     if (typeof (tags) === 'string') {
       tags = Array.of(tags)
     }
+    const { onlyInMenu } = req.query
+    const onlyInMenuBool = onlyInMenu === 'true'
     try {
-      const response = await getAllProductsUseCase(tags as string[])
+      const response = await getAllProductsUseCase((onlyInMenuBool as unknown as boolean), tags as string[])
       res
         .status(200)
         .json({ success: response.success, data: response.data, error: response.error })

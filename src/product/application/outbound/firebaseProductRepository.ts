@@ -53,8 +53,12 @@ export class FireBaseProductRepository implements ProductRepository {
     return updatedProduct
   }
 
-  async getAllProducts (tags?: string[]): Promise<Product[]> {
-    const query: FirebaseFirestore.Query = db.collection('products')
+  async getAllProducts (onlyInMenu: boolean, tags?: string[]): Promise<Product[]> {
+    let query: FirebaseFirestore.Query = db.collection('products')
+
+    if (onlyInMenu) {
+      query = query.where('inMenu', '==', true)
+    }
 
     const snapshot = await query.get()
 

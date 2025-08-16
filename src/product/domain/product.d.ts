@@ -22,6 +22,6 @@ export interface ProductRepository {
   createProduct: (product: NewProduct) => Promise<Product>
   getProductById: (id: string) => Promise<Product | null>
   updateProduct: (setData: UpdateProduct, id: string) => Promise <Product | null>
-  getAllProducts: (tags?: string[]) => Promise<Product[]>
+  getAllProducts: (onlyInMenu: boolean, tags?: string[]) => Promise<Product[]>
   getProductsByIds: (ids: string[]) => Promise<Product[]>
 }
