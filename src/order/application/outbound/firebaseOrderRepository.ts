@@ -10,9 +10,11 @@ export class FirebaseOrderRespository implements OrderRepository {
       return acc + product.price * product.amount
     }, 0)
 
+    const storeDate = new Date(new Date(newOrder.deliverDate).getTime() + 3 * 60 * 60 * 1000)
+
     const order: Order = {
       id: newOrder.id,
-      deliverDate: newOrder.deliverDate,
+      deliverDate: storeDate,
       listProducts: newOrder.listProducts,
       idUser,
       delivered: false,
