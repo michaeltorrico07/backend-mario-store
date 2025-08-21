@@ -24,7 +24,7 @@ export class MercadoPagoService implements IPaymentGateway {
         back_urls: {
           success: `${frontendUrl}`
         },
-        statement_descriptor: 'LA STORE DE MARIO'
+        statement_descriptor: 'Otto Krause Fast Food'
       }
     })
     return response
