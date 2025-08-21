@@ -17,7 +17,8 @@ export class MercadoPagoService implements IPaymentGateway {
         ...data.body,
         items: data.body.items.map(item => ({
           ...item,
-          picture_url: `${backendUrl}/ottoKrauseEscudo.jpeg`
+          picture_url: `${backendUrl}/ottoKrauseEscudo.jpeg`,
+          description: 'Otto Krause Fast Food'
         })),
         notification_url: `${backendUrl}/payment/webhook`,
         back_urls: {
