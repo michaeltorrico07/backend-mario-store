@@ -15,6 +15,10 @@ export class MercadoPagoService implements IPaymentGateway {
     const response = await preference.create({
       body: {
         ...data.body,
+        items: data.body.items.map(item => ({
+          ...item,
+          picture_url: `${backendUrl}/ottoKrauseEscudo.jpeg`
+        })),
         notification_url: `${backendUrl}/payment/webhook`,
         back_urls: {
           success: `${frontendUrl}`
